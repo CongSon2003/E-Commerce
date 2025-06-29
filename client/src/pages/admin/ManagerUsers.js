@@ -104,7 +104,6 @@ const ManagerUsers = () => {
               <th className='px-4 py-2'>Role</th>
               <th className='px-4 py-2'>Created at</th>
               <th className='px-4 py-2'>Actions</th>
-              
             </tr>
           </thead>
           <tbody>
