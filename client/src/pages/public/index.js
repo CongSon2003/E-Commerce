@@ -1,0 +1,10 @@
+export { default as Home } from './Home';
+export { default as Login } from './login';
+export { default as Open } from './Open';
+export { default as Products } from './Products';
+export { default as DetailProduct } from './DetailProduct';
+export { default as Blogs } from './Blogs';
+export { default as NotFound } from './NotFound';
+export { default as AccountRegister } from './AccountRegister';
+export { default as ResetPassword } from './ResetPassword';
+export { default as ProductAll } from './ProductsAll';

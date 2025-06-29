@@ -1,0 +1,128 @@
++, cookie-parser: (middleware)  là một công cụ hữu ích giúp bạn làm việc với cookie trong ứng dụng Express. xử lý cookie trong yêu cầu HTTP
++, cookie :  cho phép các ứng dụng web ghi nhớ người dùng giữa các phiên truy cập.
+  Cookies là các tệp được trang web người dùng truy cập tạo ra.
+  Cookie giúp trải nghiệm trực tuyến của bạn dễ dàng hơn bằng cách lưu thông tin duyệt web. Với Cookies, các trang web có thể duy trì trạng thái đăng nhập của bạn, ghi nhớ tùy chọn trang web và cung cấp nội dung phù hợp với vị trí của người dùng.
++, session : là phiên làm việc giữa client và server
+
++, access token : => Xác thực người dùng, quyền người dùng
++, refesh token : => đề tạo lại access token khi token hết hạn
+
+/*
++, Client gửi data email về server nếu client quên mật khẩu 
++, Server check email có hợp lệ hay không => Gửi mail + kèm theo link (password change token)
++, Client check email => client click link => Client gửi api kèm theo token
++, Server kiểm tra token có giống với token mà server gữi qua email không
++, change password
+*/ 
+/* Các câu lệnh $ trong mongodb : 
+  +, $pull : xóa phần tử trong mảng
+  +, $push : thêm phần tử vào mảng
+	+, $or : Sử dụng trong truy vấn để kết hợp nhiều điều kiện. {$or : [{'field1' : "giaitri1"},{'field2': "gia tri2"}]}
+  +, $set : cập nhật giá trị
+  +, $inc : tăng giá trị
+  +, $unset : xóa trường
+	+, $regex: Sử dụng để tìm kiếm theo biểu thức chính quy.
+  +, $options được sử dụng với biểu thức chính quy ($regex) để chỉ định các tùy chọn cho phép điều chỉnh cách thức tìm kiếm. (i, m, s)
+    -, i - Tìm không phân biệt chữ hoa chữ thường (case insensitive).
+    -, m - Thay đổi cách thức hoạt động của ký tự ^ và $. Khi được chỉ định, ^ tìm kiếm bắt đầu ở mỗi dòng trong chuỗi (multiline).
+    -, s - Ký tự . sẽ khớp với cả ký tự xuống dòng (newline).
+	+, $exists: Kiểm tra sự tồn tại của một trường
+  +, $addToSet : thêm phần tử vào mảng nếu chưa tồn tại 
+  +, $each : thêm nhiều phần tử vào mảng
+  +, $pop : xóa phần tử cuối hoặc đầu mảng
+  +, $pullAll : xóa nhiều phần tử trong mảng
+  +, $rename : đổi tên trường
+  +, $min : cập nhật giá trị nhỏ nhất
+  +, $max : cập nhật giá trị lớn nhất
+  +, $currentDate : cập nhật ngày hiện tại
+  +, $bit : cập nhật bit
+  +, $isolated : cập nhật độc lập
+  +, $unset : xóa trường
+  +, $elemMatch là một toán tử được sử dụng trong truy vấn để tìm các tài liệu có ít nhất một phần tử trong một mảng thỏa mãn một hoặc nhiều điều kiện
+  +, .aggregate : 
+    -, $match : Dùng để lọc các tài liệu (documents) dựa trên một điều kiện nhất định.
+    -, $project : Dùng để định hình lại các tài liệu trong kết quả. Bạn có thể thêm, xóa hoặc thay đổi các trường trong tài liệu kết quả. (1 : nấy; 0 : bỏ)
+*/
+query : price[gt] = 5 => price { gt : 5 }
+params : .../:id 
+
+cart.$.quantity sử dụng $ để chỉ định rằng bạn chỉ muốn cập nhật thuộc tính quantity của phần tử trong mảng cart mà đã khớp với điều kiện tìm kiếm.
+
+timestamps: Tự động thêm các trường thời gian cho tài liệu.
+toJSON: Bao gồm các thuộc tính ảo khi chuyển đổi thành JSON.
+toObject: Bao gồm các thuộc tính ảo khi chuyển đổi thành đối tượng JavaScript thông thường.
+
+// Thư viện thanh toán online : npm   Stripe Node.js
+// likl : wweb https://digital-world-store.myshopify.com/
+https://digital-world-store.myshopify.com/collections/smartphone
+
+// Upload image : 
+ + , Multer :  là một middleware cho Express.js được sử dụng để xử lý dữ liệu multipart/form-data, thường được dùng để tải lên tệp
+ + , multer-storage-cloudinary là một middleware cho Node.js kết hợp giữa Multer và Cloudinary, 
+    -, Cho phép bạn dễ dàng tải lên tệp trực tiếp đến Cloudinary từ ứng dụng Express.js của bạn.
+    -, Kết Nối với Cloudinary: Cung cấp cách đơn giản để kết nối và tương tác với API của Cloudinary để tải lên tệp.
+    -, Tính Năng Tự Động Lưu Trữ: Thay vì lưu trữ tệp trên hệ thống tệp cục bộ, multer-storage-cloudinary cho phép bạn lưu trữ tệp trực tiếp vào Cloudinary.
+    -, Tùy Chỉnh Cài Đặt: Bạn có thể tùy chỉnh nhiều tùy chọn như folder, allowed_formats, v.v., trong khi tải lên tệp.
+  +, CloudinaryStorage sẽ xác định các tệp tin nhận được bởi multer được lưu trữ - cụ thể là thư mục lưu trữ và loại tệp tin nào được lưu trữ. Ứng dụng sẽ chỉ chấp nhận các định dạng bên trong allowedFormats.
+
+  +, Nói Dõ hơn về refreshToken và accessToken :
+    -, RefreshToken : Thường được sử dụng để duy trì phiên làm việc của người dùng mà không cần yêu cầu đăng nhập lại.
+    -, Để lưu trữ refreshToken một cách an toàn hiệu quả bằng cách : 
+    %, Trên frontend (FE)
+      1, Cookie (Bảo mật - HttpOnly) : với thuộc tính HttpOnly và Secure 
+      vd : res.cookie('refeshToken', refreshToken, { HttpOnly : true, Secure : true});
+      2, Local storage
+      vd : localStorage.setItem('refeshToken', refeshToken);
+    %, Trên Backend (BE)
+      1, Cơ sở dữ liệu
+      vd : mongodb, PostgreSQL
+
+
++, Params : 
+  -, sử dụng khi xác định tài nguyên duy nhất mà bạn muốn truy cập hoặc thao tác
+  -, GET, DELETE : nơi mà bạn cần ID để nhận dạng
+  -, user/:id
+  => Để chỉ định tài nguyên cụ thể
+  (id) => url => httl/:id
++, Query : 
+  -, Thích hợp cho các yêu cầu GET khi bạn muốn lọc, phân trang, hoặc truy vấn dữ liệu.
+  -, Cũng có thể sử dụng trong yêu cầu POST để gửi dữ liệu tùy chọn mà không phù thuộc vào thân yêu cầu
+  -, GET /api/users?age=25&gender=male
+  => Để cung cấp thông tin bổ sung, thường cho lọc hoặc tìm kiếm, phân trang
+  (params) => {
+    axios({
+      url : '/product/getOneProduct/' + productId,
+      method : 'GET',
+      params
+    })
+  }
++, body : 
+  -, Dùng để gửi dữ liệu lớn hoặc phức tạp sẽ không được hiển thị trong URL
+  -, Thích hợp cho các yêu cầu POST, PUT, PATCH, nơi bạn cần gửi dữ liệu để tạo mới hoặc cập nhật một tài nguyên.
+  -, POST /api/users
+  => Để gửi dữ liệu lớn hoặc phức tạp, thường trong POST/PUT
+  (data) => {
+    axios({
+      url : '/product/getOneProduct/' + productId,
+      method : 'GET',
+      data
+    })
+  }
+  Body:
+  {
+    "username": "user123",
+    "password": "pass123",
+    "email": "user@example.com"
+  }
+
+
++, "new RegExp()" :  
+  -, là một cách trong JavaScript để tạo một biểu thức chính quy (regular expression) mới. 
+  -, Biểu thức chính quy là một chuỗi đặc biệt mô tả một mẫu tìm kiếm, thường được dùng để kiểm tra, tìm kiếm hoặc thay thế các chuỗi.
+
+
++, useSearchParams là một hook trong react-router-dom (từ phiên bản 6.4) cho phép bạn quản lý và truy xuất tham số truy vấn (query parameters) trong URL. Nó rất hữu ích để xử lý các tham số tìm kiếm mà không cần phải thực hiện thao tác phức tạp với chuỗi URL.
++, user => login  { accessToken, refeshToken }
+
++, useMemo => lưu value khi chạy lần đầu tiên và chỉ chạy lại hàm khi dep thay đổi
++, useCallback => lưu callbak chạy lần đầu tiên và chỉ chạy lại hàm khi dep thay đổi
