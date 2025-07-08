@@ -244,7 +244,15 @@ const deleteUser = asyncHandler(async (req, res) => {
 // update user
 const updateUser = asyncHandler(async (req, res) => {
   const { _id } = req.user;
+  let avatar
+  console.log(req.body);
+  console.log(req.file);
+  console.log(_id);
   if (!_id || Object.keys(req.body).length === 0) throw new Error('Missing inputs')
+  if (req.file?.fieldname === 'avatar') {
+    req.body.avatar = req.file.path
+  }
+  console.log(req.body);
   const response = await servicesUser.updateUser(_id, req.body);
   return res.status(response.success ? StatusCodes.OK : StatusCodes.INTERNAL_SERVER_ERROR).json(response)
 })
@@ -255,6 +263,16 @@ const updateUserByAdmin = asyncHandler(async (req, res) => {
   if (Object.keys(req.body).length === 0) throw new Error('Missing inputs')
   const response = await servicesUser.updateUserByAdmin(_id, req.body);
   return res.status(response.success ? StatusCodes.OK : StatusCodes.INTERNAL_SERVER_ERROR).json(response)
+})
+
+// uploadAvatar
+const uploadAvatar = asyncHandler(async (req, res) => {
+  const { _id } = req.user;
+  if (!_id) {
+    throw new Error('Missing inputs')
+  }
+  let avatar;
+  console.log(req.files);
 })
 
 // Update Adress 
@@ -273,4 +291,4 @@ const updateUserCart = asyncHandler(async (req, res) => {
   const response = await servicesUser.updateUserCart(_id, req.body);
   return res.status(200).json(response)
 })
-module.exports = { register_Admin, register, login, account_register, refreshAccessToken, deleteUser, updateUser, updateUserByAdmin, updateUserAddress, updateUserCart, logout, forgotPassword, resetPassword, getOneUser, getUsers };
+module.exports = { register_Admin, uploadAvatar, register, login, account_register, refreshAccessToken, deleteUser, updateUser, updateUserByAdmin, updateUserAddress, updateUserCart, logout, forgotPassword, resetPassword, getOneUser, getUsers };

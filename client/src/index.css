@@ -142,10 +142,20 @@
 }
 .enlarged-image-container {
   border: 4px solid #505050 !important; /* Bạn có thể thay đổi màu và độ dày */
+  z-index: 100;
+  width: 450px !important;
 }
 
-
-
+.triangle-bottomright{
+  width: 0;
+  height: 0;
+  border-bottom: 20px solid red;
+  border-left: 20px solid transparent;
+}
+.small-image-container{
+  height: 450px !important;
+  object-fit: contain;
+}
 
 .my-masonry-grid {
   display: -webkit-box; /* Not needed if autoprefixing */
@@ -164,9 +174,6 @@
   margin-bottom: 20px;
   padding: 0;
 }
-
-
-
 
 .ProductThumbs .slick-list .slick-track div div{
   /* border: #FF3D00;

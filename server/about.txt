@@ -126,3 +126,10 @@ https://digital-world-store.myshopify.com/collections/smartphone
 
 +, useMemo => lưu value khi chạy lần đầu tiên và chỉ chạy lại hàm khi dep thay đổi
 +, useCallback => lưu callbak chạy lần đầu tiên và chỉ chạy lại hàm khi dep thay đổi
++, Object.fromEntries(iterable) là một phương thức trong JavaScript được giới thiệu từ ES2019 (ES10). Phương thức này cho phép bạn tạo một đối tượng từ một mảng các cặp khóa-giá trị.
+  -, iterable là một đối tượng có thể lặp lại, như mảng hoặc Map
+  vd : const entries = [['name', 'Alice'], ['age', 25], ['city', 'New York']];
+      const obj = Object.fromEntries(entries);
+
+      console.log(obj); 
+      // Kết quả: { name: 'Alice', age: 25, city: 'New York' }

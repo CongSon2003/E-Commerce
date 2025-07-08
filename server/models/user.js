@@ -26,7 +26,7 @@ var userSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    avarta : {
+    avatar : {
       type : String
     },
     cart: [

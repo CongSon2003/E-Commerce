@@ -16,8 +16,8 @@ import {
   ProductAll
 } from "./pages/public";
 import { ToastContainer } from "react-toastify";
-import { AdminLayout, Dashboard, ManagerOrder, ManagerProduct,  CreatedProducts, ManagerUsers } from "pages/admin";
-import { Personal, UserLayout } from 'pages/member'
+import { AdminLayout, Dashboard, ManagerOrder, ManagerProduct,  CreatedProducts, ManagerUsers, UpdateProduct, ProductVarriantions } from "pages/admin";
+import { MyCart, Personal, PurchaseHistory, UserLayout, WishList } from './pages/member'
 function App() {
   const dispatch = useDispatch();
   const { isShowModel, dataModel } = useSelector(state => state.appReducer);
@@ -50,9 +50,14 @@ function App() {
           <Route path={Path.MANAGER_PRODUCTS_URL} element = {<ManagerProduct/>} />
           <Route path={Path.CREATE_PRODUCT} element = {<CreatedProducts/>}/>
           <Route path={Path.MANAGER_USERS_URL} element = {<ManagerUsers/>}/>
+          <Route path={Path.UPDATE_PRODUCT} element = {<UpdateProduct/>}/>
+          <Route path={Path.PRODUCT_VARIATIONS} element = {<ProductVarriantions/>}/>
         </Route>
         <Route path={Path.MEMBER_URL} element = {<UserLayout/>}>
           <Route path={Path.PERSONAL_URL} element = {<Personal/>}/>
+          <Route path={Path.MYCART_URL} element= {<MyCart/>}/>
+          <Route path={Path.PURCHASE_HISTORY_URL} element= {<PurchaseHistory/>}/>
+          <Route path={Path.WISHLIST_URL} element={<WishList/>}/>
         </Route>
       </Routes>
       <ToastContainer

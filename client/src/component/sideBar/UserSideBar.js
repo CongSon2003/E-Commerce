@@ -1,6 +1,6 @@
-import React, { Fragment, useEffect, useState } from 'react'
+import React, { Fragment, useState } from 'react'
 import logo from '../../assets/logo_digital_new_250x.png'
-import { adminSideBar } from 'ultils/contant'
+import { userSideBar } from 'ultils/contant'
 import { NavLink } from 'react-router-dom'
 import { FaAngleDown } from "react-icons/fa";
 import { FaAngleUp } from "react-icons/fa";
@@ -16,10 +16,10 @@ const AdminSideBar = () => {
     <div className='bg-gray-600 text-white flex min-h-screen w-[16%] flex-col py-4 fixed left-0 top-0 z-50'>
       <div className='flex flex-col text-center items-center gap-2 p-4'>
         <img src={logo} alt='' className='object-contain w-[200px]'/>
-        <h3 className='font-semibold'>Admin Workspace</h3>
+        <h3 className='font-semibold'>Member Workspace</h3>
       </div>
       <div className='flex flex-col'>
-        { adminSideBar.map(item => (
+        { userSideBar.map(item => (
           <Fragment key={item.id}>
             { item.type === 'single' && <NavLink to={item.path} className={({isActive}) => clsx(isActive && activeStyle, !isActive && notActiveStyle)} >
                 <span>{item.icon}</span>

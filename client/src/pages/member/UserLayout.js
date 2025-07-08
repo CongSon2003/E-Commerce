@@ -1,18 +1,22 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
 import { Navigate, Outlet } from 'react-router-dom'
+import { UserSideBar } from 'component/sideBar'
 import path from 'ultils/path';
 const UserLayout = () => {
   const { isLoggedIn } = useSelector(state => state.userReducer);
-  console.log("OOOO");
   if (!isLoggedIn) {
     return <Navigate to={`/${path.LOGIN_URL}`} replace = {true}/>
   }
   return (
-    <div>
-      <h2>LAYOUT MEMBER</h2>
-      <Outlet/>
-    </div>
+    <div className='flex w-full'>
+        <div className='w-full flex justify-end'>
+          <UserSideBar/>
+          <div className='w-[84%] flex'>
+            <Outlet/>
+          </div>
+        </div>
+      </div>
   )
 }
 

@@ -11,11 +11,11 @@ const Home = () => {
     <div className="flex flex-col gap-5 justify-center w-full items-center">
       <div className="flex flex-col justify-center w-main gap-5">
         <div className="flex gap-5">
-          <div className="flex flex-col gap-5 w-[25%]">
+          <div className="flex flex-col gap-5 w-[28%]">
             <Sidebar />
             <DailyDeals />
           </div>
-          <div className="flex flex-col gap-5 w-[71%]">
+          <div className="flex flex-col gap-5 w-[72%]">
             <Banner />
             <Bestseller />
           </div>
