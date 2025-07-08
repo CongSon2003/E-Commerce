@@ -21,10 +21,15 @@ const path = {
   MANAGER_USERS_URL : 'manager-users',
   MANAGER_ORDERS : 'manager-orders',
   CREATE_PRODUCT : 'create-product',
+  UPDATE_PRODUCT : 'update-product/:productId',
+  PRODUCT_VARIATIONS : 'manager-products/product-varriations/:productId',
 
   // MEMBER
   MEMBER_URL : 'member',
   PERSONAL_URL : 'personal',
+  WISHLIST_URL : 'whishlist',
+  PURCHASE_HISTORY_URL : 'perchase-history',
+  MYCART_URL : 'my-cart'
 };
 
 export default path;

@@ -2,27 +2,30 @@ const { StatusCodes } = require("http-status-codes");
 const Product = require("../models/product");
 const asyncHandler = require("express-async-handler");
 const slugify = require("slugify");
+const uniqid = require('uniqid');
 // Tạo mới sản phẩm
 const createProduct = asyncHandler(async (req, res) => {
   const { title, description, brand, price, quantity } = req.body;
   if (Object.keys(req.body).length === 0 && !title)
     throw new Error("Missing inputs");
   const slug = slugify(title, { locale: "vi", lower: true });
-  const dataCreate = {
-    title,
-    description,
-    brand,
-    price,
-    quantity,
-    slug,
-  };
-  console.log(dataCreate);
-  const response = await Product.create(dataCreate);
+  const thumb = req.files.thumb[0].path; // Lấy đường dẫn của ảnh thumb
+  if (!thumb) throw new Error("Missing thumb image");
+  const images = req.files?.images?.map(file => file.path) || []; // Lấy đường dẫn của các ảnh khác, nếu không có thì để mảng rỗng
+  if (thumb) {
+    req.body.thumb = thumb; // Gán đường dẫn ảnh thumb vào req.body
+  }
+  if (images.length > 0) {
+    req.body.images = images; // Gán mảng ảnh vào req.body
+  }
+  req.body.slug = slug; // Gán slug vào req.body
+  const response = await Product.create(req.body);
   return res
-    .status(response ? StatusCodes.OK : StatusCodes.INTERNAL_SERVER_ERROR)
+    .status(response ? StatusCodes.CREATED : StatusCodes.INTERNAL_SERVER_ERROR)
     .json({
       success: response ? true : false,
       response: response ? response : null,
+      message : response ? 'Create product successfully' : 'Create product failed'
     });
 });
 
@@ -73,9 +76,22 @@ const updateProduct = asyncHandler(async (req, res) => {
   const { productId } = req.params;
   if (Object.keys(req.body).length === 0 || !productId)
     throw new Error("Missing inputs");
+  let thumb
+  let images
+  // Nếu gửi images hoặc thumb bằng file thì nấy giá thị path nếu không thì giữ nguyên giá trị
+  
+  if (req.files?.images) { 
+    req.body.images = req.files.images?.map(imge => imge.path);
+  }
+  if (req.files?.thumb) {
+    req.body.thumb = req.files.thumb[0].path;
+  }
   // Nếu title được cập nhật thì slug cũng được cập nhật theo title
   if (req.body.title) {
     req.body.slug = slugify(req.body.title, { locale: "vi" });
+  }
+  if (req.body.thumb) {
+    req.body.thumb = typeof req.body.thumb === 'array' ? req.body.thumb[0] : req.body.thumb
   }
   // Tìm product và update
   const response = await Product.findByIdAndUpdate(
@@ -276,7 +292,29 @@ const uploadImagesProduct = asyncHandler(async (req, res) => {
       response: response ? response : null,
     });
 });
+// addVarriant
+const addVarriantProduct = asyncHandler(async (req, res) => {
+  const { productId } = req.params;
+  const { color, price, title } = req.body;
+  if (!color && !price) {
+    throw new Error('Missing Inputs');
+  }
+  console.log(req.files);
+  const thumb = req.files?.thumb[0]?.path;
+  const images = req.files?.images?.map(imge => imge.path);
+  const sku = uniqid();
+  const response = await Product.findByIdAndUpdate({_id : productId}, { $push : { varriants : { color, price, thumb, sku, title, images }}}, { new : true});
+  return res
+    .status(response ? StatusCodes.OK : StatusCodes.INTERNAL_SERVER_ERROR)
+    .json({
+      success: response ? true : false,
+      message: response
+        ? "Product has been added successfully!"
+        : "Added failed!",
+      response: response ? response : null,
+    });
 
+})
 module.exports = {
   createProduct,
   getOneProduct,
@@ -287,5 +325,6 @@ module.exports = {
   deleteProduct,
   ratings,
   uploadImagesProduct,
+  addVarriantProduct
 
 };

@@ -8,7 +8,6 @@ import { useForm } from 'react-hook-form';
 import { apiUpdateUserAdmin } from '../../apis';
 import Swal from 'sweetalert2';
 // Example items, to simulate fetching from another resources.
-const items = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14];
 const ManagerUsers = () => {
   const [users, setUsers] = useState(null);
   const { handleSubmit, formState : { errors }, register, reset } = useForm();
@@ -36,7 +35,7 @@ const ManagerUsers = () => {
     setIsUpdate(!isUpdate);
   }, [isUpdate]);
   const handlePageClick = (event) => {
-    const newOffset = (event.selected * itemsPerPage) % items.length;
+    const newOffset = (event.selected * itemsPerPage) % users.length;
     // console.log(
     //   `User requested page number ${event.selected}, which is offset ${newOffset}`
     // );
@@ -83,7 +82,7 @@ const ManagerUsers = () => {
   })
   }, [dataEditUser, reset])
   return (
-    <div className='p-4 relative w-full h-full flex flex-col'>
+    <div className='p-4 relative w-full h-screen flex flex-col'>
       <header className='w-full border-b p-2 mb-6'>
         <h1 className='text-2xl font-medium uppercase'> Manager users</h1>
       </header>
@@ -128,7 +127,7 @@ const ManagerUsers = () => {
           </tbody>
         </table>
       </div> 
-      <div className='w-full flex justify-center items-center absolute bottom-14 left-0 right-0'>
+      {currentItems && <div className='w-full flex justify-center items-center mt-5'>
         <ReactPaginate
           breakLabel="..."
           nextLabel="next >"
@@ -146,7 +145,7 @@ const ManagerUsers = () => {
           previousLabel="< previous"
           renderOnZeroPageCount={null}
         />
-      </div>
+      </div>}
       {isEdit && <div className='bg-[rgba(0,0,0,0.5)] absolute top-0 left-0 right-0 bottom-0 z-10 flex justify-center items-center'>
         <div className='bg-white text-black w-1/3 rounded-md'>
           <div className='flex justify-between items-center p-4 border-b'>
@@ -198,7 +197,6 @@ const ManagerUsers = () => {
               </div>
             </form>
           </div>
-        
         </div>
       </div>}
     </div>

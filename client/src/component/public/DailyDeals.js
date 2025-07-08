@@ -65,7 +65,7 @@ const DailyDeals = () => {
         <div className="flex flex-col text-center gap-2">
           <img src={dailyDealys?.thumb} className="object-cover cursor-pointer w-[255px] h-[255px]" alt="" />
           <div className="flex flex-col justify-center text-center gap-1">
-            <div className="text-[#2b3743] flex justify-center line-clamp-1">
+            <div className="text-[#2b3743] flex justify-center line-clamp-1 mb-2">
               <a href="/products/example-book-3" className="line-clamp-1">
                 {dailyDealys?.title || "null"}
               </a>

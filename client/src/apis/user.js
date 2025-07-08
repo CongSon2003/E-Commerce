@@ -40,6 +40,18 @@ export const apiResetPassword = (data) => {
   } catch (error) {
     throw error
   }
+} // updateUser
+export const apiUpdateUser = (data) => {
+  try {
+    console.log(data);
+    return axios({
+      url : '/user/updateUser',
+      method : 'PUT',
+      data
+    })
+  } catch (error) {
+    throw error
+  }
 }
 export const apiGetUsers = (params) => {
   try {

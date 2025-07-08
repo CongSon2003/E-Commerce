@@ -44,7 +44,7 @@ const ItemProduct = ({ itemProductData, isNew, normal }) => {
           >
             <img
               src={itemProductData?.thumb}
-              className="w-full object-contain cursor-pointer outline-none"
+              className="w-[245px] h-[245px] object-contain cursor-pointer outline-none"
               alt=""
             />
           </Link>

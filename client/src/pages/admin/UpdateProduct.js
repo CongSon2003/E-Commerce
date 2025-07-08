@@ -1,16 +1,21 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { apiCreateProduct } from '../../apis';
+import { apigetOneProduct, apiUpdateProduct } from '../../apis';
 import Markdown from 'component/input/Markdown';
 import React, { useCallback, useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form';
 import { useSelector } from 'react-redux'
+import { useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { fileToBase64 } from 'ultils/helper';
+import path from 'ultils/path';
 const CreatedProduct = () => {
   const { categories } = useSelector(state => state.appReducer);
-  const [category, setCategory] = useState('');
-  const { register, handleSubmit, formState: { errors }, watch} = useForm();
+  const { register, handleSubmit, formState: { errors }, watch, reset} = useForm();
+  const [currentProduct, setCurrentProduct] = useState(null);
+  const [brand, setBrand] = useState(currentProduct?.brand);
   const [loading, setLoading] = useState(false);
+  const { productId }  = useParams();
+  const navigation = useNavigate();
   const [textDescription, setTextDescription] = useState({
     description : ''
   });
@@ -19,9 +24,6 @@ const CreatedProduct = () => {
     images : []
   });
   const [errorTextDescription, setErrorTextDescription] = useState('');
-  const handleOnChangeCategory = (e) => {
-    setCategory(e.target.value);
-  }
   const onSubmit = async (data) => {
     setLoading(true);
     if (data.category) {
@@ -34,52 +36,101 @@ const CreatedProduct = () => {
       setErrorTextDescription('');
       data.description = textDescription.description;
     }
-    const finalData = {...data,...textDescription }
-    console.log("finalData", finalData);
+    let finalData = { }
     const formData = new FormData();
+    if (data?.thumb?.length > 0 || data?.images?.length > 0) { 
+      if (data.thumb && !data.images) {
+        finalData = {...data, ...textDescription, images : [...previewImage.images]}
+        console.log(finalData);
+      }
+      if (data.images && !data.thumb) {
+        finalData = {...data, ...textDescription, thumb : [previewImage.thumb]}
+      }
+      if (!data.images && !data.thumb) {
+        delete data.images;
+        delete data.thumb;
+        finalData = { ...data,...textDescription, ...previewImage}
+      }
+      if (data.images && data.thumb ) {
+        finalData = {...data, ...textDescription}
+      }
+    } else {
+      delete data.images;
+      delete data.thumb;
+      finalData = { ...data,...textDescription, ...previewImage}
+    }
     for (const key of Object.entries(finalData)) {
       formData.append(key[0], key[1]); 
     }
     if (finalData.thumb) {
+      formData.delete('thumb')
       // If thumb is an array, we take the first element
-      formData.append('thumb', finalData.thumb[0])
+      formData.append('thumb', typeof finalData.thumb === 'string' ? finalData.thumb : finalData.thumb[0])
     }
-    if (finalData.images && finalData.images.length > 0) {
-      console.log(finalData.images);
+    if (finalData.color) {
+      formData.delete('color')
+      formData.append('color', finalData.color.toUpperCase())
+    }
+    console.log(finalData);
+    if (finalData?.images && finalData?.images?.length > 0) {
+      formData.delete('images')
       for (let image of finalData.images) {
         formData.append('images', image);
+        console.log(image);
       }
     }
-    console.log("formData", formData.getAll('thumb'));
-    console.log('finalData', finalData);
-    const result = await apiCreateProduct(formData);
+    const result = await apiUpdateProduct(productId,formData);
     setLoading(false);
-    console.log(result);
-    if (result.success) {
-      toast.success('Create product successfully');
-      setPreviewImage({
-        thumb : '',
-        images : []
-      })
-      setTextDescription({
-        description : ''
-      });
+
+    if (result?.success) {
+      toast.success('Update product successfully');
     } else {
-      toast.error(result.message || 'Create product failed');
+      toast.error(result?.message || 'Update product failed');
     }
   }
   const onChangeDescription = useCallback((objectValue) => {
     setTextDescription(objectValue)
   }, [])
   useEffect(() => {
-    console.log('watch', watch);
-    if (watch('thumb').length > 0) {
+    if (watch('thumb')?.length > 0) {
       handlePriviewThumb(watch('thumb')[0]);
     }
-    if (watch('images').length > 0) {
+    if (watch('images')?.length > 0) {
       handlePriviewImages(watch('images'));
     }
   },[watch('thumb'), watch('images')]);
+  useEffect(() => {
+    const fetchApiGetProduct = async (productId) => {
+      const result = await apigetOneProduct(productId);
+      console.log(result);
+      if (result.success) {
+        setCurrentProduct(result.response);
+      }
+    }
+    fetchApiGetProduct(productId);
+  },[productId]);
+  useEffect(() => {
+    if (currentProduct) {
+      setBrand(currentProduct.brand);
+      setTimeout(() => {
+        reset({
+          title : currentProduct.title || '',
+          description : currentProduct.description || '',
+          price : currentProduct.price || '',
+          quantity : currentProduct.quantity || '',
+          color : currentProduct.color || '',
+          category : categories.find(categr => categr.title?.toLowerCase() === currentProduct.category?.toLowerCase())?._id || '',
+          brand : currentProduct.brand || '',
+        })  
+      },1000)
+      setPreviewImage({
+        thumb : currentProduct.thumb,
+        images : currentProduct.images
+      })
+      setTextDescription(prev => ({...prev, description : typeof currentProduct.description === 'object' ? currentProduct.description?.join(', ') : currentProduct?.description}))
+    }
+    console.log(currentProduct);
+  },[currentProduct])
   const handlePriviewThumb = async (file) => {
     if (!file) {
       setPreviewImage(prev => ({...prev, thumb : ''}));
@@ -90,17 +141,28 @@ const CreatedProduct = () => {
   }
   const handlePriviewImages = async (files) => {
     // Convert FileList to Array
-    if (!files || files.length === 0) {
+    if (!files || files?.length === 0) {
       setPreviewImage(prev => ({...prev, images : []}));
       return;
     }
     const base64Images = await Promise.all(Array.from(files).map(file => fileToBase64(file)));
     setPreviewImage(prev => ({...prev, images : base64Images}));
   }
+  const handleOnchangeBrand = (e) => {
+    setBrand(e.target.value);
+  }
+  const handleOnCancelUpdateProduct = () => {
+    navigation(`/admin/${path.MANAGER_PRODUCTS_URL}`)
+  }
+  console.log(currentProduct)
   return (
     <div className='p-4 relative w-full h-full flex flex-col'>
-      <header className='w-full border-b p-2 mb-6'>
-        <h1 className='text-2xl font-medium uppercase'>Created Product</h1>
+      <header className='w-full border-b p-2 mb-6 flex items-center gap-2 justify-between'>
+        <div className='flex items-center gap-2'>
+          <h1 className='text-2xl font-medium uppercase'>Update Product : </h1>
+          <span className='text-2xl text-gray-700'>{currentProduct?.title || 'null'}</span>
+        </div>
+        <button type='button' onClick={()=> handleOnCancelUpdateProduct()} className='p-2 bg-main rounded-md text-white'>Cancel</button>
       </header>
       <div className='flex gap-4 w-full h-full justify-center'>
         <form onSubmit={handleSubmit(onSubmit)} className='flex flex-col gap-4 w-8/12 bg-[#F1EFEC] border p-4 rounded-md shadow-md'>
@@ -110,7 +172,7 @@ const CreatedProduct = () => {
             <small className='text-red-500 pl-2'>{errors.title?.message}</small>
           </div>
           <div>
-            <Markdown  label={'Product Description'} onChangeDescription={onChangeDescription} name={'description'} error={errorTextDescription}/>
+            <Markdown label={'Product Description'} initialValue={textDescription.description} onChangeDescription={onChangeDescription} name={'description'} error={errorTextDescription}/>
           </div>
           <div className='flex w-full gap-2'>
             <div className='flex-1'>
@@ -132,35 +194,35 @@ const CreatedProduct = () => {
           <div className='flex w-full justify-between gap-2'>
             <div className='w-1/2'>
               <label htmlFor='Product-category' className='block mb-2 text-sm font-medium text-gray-700 cursor-pointer'>Product Category</label>
-              <select {...register('category', { required : 'Please enter your category'})} value={category} onChange={handleOnChangeCategory} id='Product-category' className='w-full border p-2 rounded-md'>
+              <select {...register('category', { required : 'Please enter your category'})} id='Product-category' className='w-full border p-2 rounded-md'>
                 <option value=''>--Select a category--</option>
                 {categories && categories.map((category) => (
-                  <option key={category._id} value={category._id}>{category.title}</option>
+                  <option key={category?._id} value={category?._id}>{category.title}</option>
                 ))}
               </select>
               <small className='text-red-500 pl-2'>{errors?.category?.message}</small>
             </div>
             <div className='w-1/2'>
               <label htmlFor='Product-brands' className='block mb-2 text-sm font-medium text-gray-700 cursor-pointer'>Product Brands</label>
-              <select {...register('brand', {required : 'Please enter your brands'})} id='Product-brands' className='w-full border p-2 rounded-md'>
+              <select {...register('brand', {required : 'Please enter your brands'})} value={brand} onChange={(e) => handleOnchangeBrand(e)} id='Product-brands' className='w-full border p-2 rounded-md'>
                 <option value=''>--Select a brands--</option>
-                {categories && categories.find(el => el._id === category)?.brand?.map((brand,index) => (
+                {categories && categories.find(el => el?._id === watch('category'))?.brand?.map((brand,index) => (
                   <option key={index} value={brand}>{brand}</option>))}
               </select>
               <small className='text-red-500 pl-2'>{errors.brands?.message}</small>
             </div>
           </div>
           <div>
-            <label htmlFor='Product-thumb' className='block mb-2 text-sm font-medium text-gray-700 cursor-pointer'>Product Thumbnail</label>
-            <input type='file' id='Product-thumb' {...register('thumb', { required : 'Please enter your product thumbnail'})} className='w-full border p-2 rounded-md' />
+            <label htmlFor='Product-thumb' className='block mb-2 text-sm font-medium text-gray-700 cursor-pointer'>{`Product Thumbnail (${previewImage?.thumb ? 1 : 0} item)`}</label>
+            <input type='file' id='Product-thumb' {...register('thumb')} className='w-full border p-2 rounded-md' />
             <small className='text-red-500 pl-2'>{errors.thumb?.message}</small>
           </div>
           {previewImage.thumb && <div>
             <img src={previewImage.thumb} alt='thumbnail' className='w-1/2 object-contain'/>
           </div>}
           <div>
-            <label htmlFor='Product-images' className='block mb-2 text-sm font-medium text-gray-700 cursor-pointer'>Product Images</label>
-            <input type='file' multiple id='Product-images' {...register('images', { required : 'Please enter your product images'})} className='w-full border p-2 rounded-md' />
+            <label htmlFor='Product-images' className='block mb-2 text-sm font-medium text-gray-700 cursor-pointer'>{`Product Images (${previewImage.images.length} items)`}</label>
+            <input type='file' multiple id='Product-images' {...register('images')} className='w-full border p-2 rounded-md' />
             <small className='text-red-500 pl-2'>{errors.images?.message}</small>
           </div>
           <div>
@@ -172,7 +234,11 @@ const CreatedProduct = () => {
               ))}
             </div>}
           </div>
-          <button type='submit' className='bg-main p-2 rounded-md hover:bg-[#474747] text-white'>{loading ? 'Loading...' : 'Create new product'}</button>
+          {
+            loading ? <button type='submit' className={`bg-main p-2 rounded-md hover:bg-[#474747] text-white cursor-not-allowed`} disabled>Loading...</button> : 
+              <button type='submit' className={`bg-main p-2 rounded-md hover:bg-[#474747] text-white`}>Product Updates</button>
+          }
+          <button type='submit' className={`bg-main p-2 rounded-md hover:bg-[#474747] text-white`}>Product Updates</button>
         </form>
       </div>
     </div>

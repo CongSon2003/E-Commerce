@@ -138,6 +138,36 @@ export const adminSideBar = [
     icon : <CgMenuBoxed/>
   },
 ]
+export const userSideBar = [
+  {
+    id : 1,
+    type : 'single',
+    text : 'Personal',
+    path : `/${path.MEMBER_URL}/${path.PERSONAL_URL}`,
+    icon : <MdDashboard/>
+  },
+  {
+    id : 2,
+    type : 'single',
+    text : 'My cart',
+    path : `/${path.MEMBER_URL}/${path.MYCART_URL}`,
+    icon : <FaRegUser/>
+  },
+  {
+    id : 3,
+    type : 'single',
+    text : 'Purchase history',
+    path : `/${path.MEMBER_URL}/${path.PURCHASE_HISTORY_URL}`,
+    icon : <CgMenuBoxed/>
+  },
+  {
+    id : 4,
+    type : 'single',
+    text : 'Whishlist',
+    path : `/${path.MEMBER_URL}/${path.WISHLIST_URL}`,
+    icon : <CgMenuBoxed/>
+  },
+]
 export const roles = [
   {
     code : 1945,

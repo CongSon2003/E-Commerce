@@ -20,3 +20,15 @@ export const renderStarProduct = (numberStar, size) => {
   }
   return stars
 }
+// Convert file to base64
+// Usage: fileToBase64(file).then(base64 => console.log(base64)).catch(error => console.error(error));
+// Note: This function returns a Promise that resolves with the base64 string of the file.
+export const fileToBase64 = (file) => {
+  return new Promise((resolve, reject) => {
+    console.log(file);
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = error => reject(error);
+  });
+}

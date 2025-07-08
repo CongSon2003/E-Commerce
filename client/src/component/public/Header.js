@@ -11,15 +11,17 @@ import { FaPhoneAlt } from "react-icons/fa";
 import logo from "../../assets/logo_digital_new_250x.png";
 import { MdEmail } from "react-icons/md";
 import { FaShoppingBag } from "react-icons/fa";
+import { IoPerson } from "react-icons/io5";
 import { IoIosClose } from "react-icons/io";
+import { IoLogOut } from "react-icons/io5";
 import { Link } from "react-router-dom";
 import Path from "ultils/path";
-import { IoLogOutOutline } from "react-icons/io5";
 import { apiRegister, apiLogin, apiForgotPassword, apiAcccount_register } from '../../apis';
 import { toast } from 'react-toastify';
 import Swal from 'sweetalert2';
 import { useForm } from "react-hook-form";
 import { CiHeart } from "react-icons/ci";
+import { MdAdminPanelSettings } from "react-icons/md";
 import { getCurrentUser } from "../../store/user/asyncUserAction";
 import path from "ultils/path";
 const Header = () => {
@@ -42,6 +44,7 @@ const Header = () => {
   const [textErrorToken, setTextErrorToken] = useState(null);
 
   const [isLoading, setIsLoading] = useState(false);
+  const [isShowOption, setIsShowOption] = useState(false);
   const { handleSubmit, formState : { errors }, register } = useForm();
   // const [textError, set]
   const handleLogin = async (data) => {
@@ -143,6 +146,18 @@ const Header = () => {
       clearTimeout(timeOutLogin)
     }
   }, [isLoggedIn, dispatch])
+  useEffect(() => {
+    const handleClickOutOption = (e) => {
+      const profile = document.getElementById('profile');
+      if (!profile?.contains(e.target)) {
+        setIsShowOption(false)
+      }
+    }
+    document.addEventListener('click', handleClickOutOption);
+    return () => {
+      document.addEventListener('click', handleClickOutOption);
+    }
+  },[])
   return (
     <>
       <div className="homeHeader w-full flex flex-col">
@@ -156,13 +171,30 @@ const Header = () => {
                 {/* <span className=""><CiMoneyBill className="text-xl" /></span> */}
                 <span className="text-xs">VND</span>
               </div>
-            </div>
-            {(isLoggedIn && currentUser) ? <div className={`flex h-full items-center gap-4`}>
-                <Link to={currentUser?.role === 1945 ? `/${path.ADMIN_URL}` : `/${path.MEMBER_URL}`} className="flex items-center font-semibold gap-1 cursor-pointer">
+            </div> 
+            {/*to={currentUser?.role === 1945 ? `/${path.ADMIN_URL}` : `/${path.MEMBER_URL}`}*/}
+            {(isLoggedIn && currentUser) ? <div className={`flex h-full items-center gap-4 relative`}>
+                <Link onClick={() => setIsShowOption(prev => !prev)} id="profile" className="flex items-center font-semibold gap-1 cursor-pointer">
                   <span>{`Welcome, ${currentUser?.firstname} ${currentUser?.lastname}`}</span>
                   <FaRegUserCircle className="text-xl" />
                 </Link>
-                <div onClick={() => dispatch(logout())} className="cursor-pointer hover:bg-gray-200 hover:text-black rounded"><IoLogOutOutline className="text-xl"/></div>
+                {/* <div onClick={() => dispatch(logout())} className="cursor-pointer hover:bg-gray-200 hover:text-black"><IoLogOutOutline className="text-xl"/></div> */}
+                {isShowOption && <div onClick={(e) => e.stopPropagation()} className="absolute bg-gray-100 top-8 left-0 right-0 text-black flex flex-col p-2 rounded">
+                  <Link to={`/${path.MEMBER_URL}/personal`} className="hover:bg-gray-300 cursor-pointer p-2 flex items-center gap-2 rounded">
+                    <IoPerson/> 
+                    <span>Personal</span>
+                  </Link>
+                  {currentUser?.role === 1945 && <span className="p-2 hover:bg-gray-300 cursor-pointer rounded">
+                      <Link to={`/${path.ADMIN_URL}`} className="flex items-center gap-2">
+                        <MdAdminPanelSettings/>
+                        <span>Administrator</span>
+                      </Link>
+                    </span>}
+                  <span className="p-2 hover:bg-gray-300 cursor-pointer flex items-center gap-2 rounded">
+                    <IoLogOut className="mt-[1px]"/>
+                    <span onClick={() => dispatch(logout())}>Logout</span>
+                  </span>
+                </div>}
               </div> :  <div className="right-area flex items-center gap-2">
               <div onClick={() => setIsLoginOrRegister(prev => !prev)} className="text-white font-semibold hover:text-[black] cursor-pointer">
                 Sign In or Create Account
