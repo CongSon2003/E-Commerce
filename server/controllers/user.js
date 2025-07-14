@@ -125,8 +125,12 @@ const login = asyncHandler(async (req, res) => {
 // Get one user current 
 const getOneUser = asyncHandler(async (req, res) => {
   const { _id } = req.user;
-  const response = await servicesUser.findUserByData({_id});
-
+  const response = await User.findById(_id).populate({
+    path : 'cart',
+    populate : {
+      path : 'product',
+    }
+  })
   // Xoá password trước khi gửi về client
   const newData = response ? JSON.parse(JSON.stringify(response)) : null
   delete newData.password
@@ -244,10 +248,6 @@ const deleteUser = asyncHandler(async (req, res) => {
 // update user
 const updateUser = asyncHandler(async (req, res) => {
   const { _id } = req.user;
-  let avatar
-  console.log(req.body);
-  console.log(req.file);
-  console.log(_id);
   if (!_id || Object.keys(req.body).length === 0) throw new Error('Missing inputs')
   if (req.file?.fieldname === 'avatar') {
     req.body.avatar = req.file.path
@@ -286,9 +286,42 @@ const updateUserAddress = asyncHandler(async (req, res) => {
 // Update Cart : cập nhật rỏ hàng của người dùng
 const updateUserCart = asyncHandler(async (req, res) => {
   const { _id } = req.user;
-  const { productId, quantity, color} = req.body;
-  if (!productId || !quantity || !color) throw new Error('Missing Inputs');
+  const { productId, price, isUpdateCart, currentCart } = req.body;
+  // Thực hiện thay đổi giá trị của priceChanged trong currentCart trước khi update
+  const finalCurrentCart = currentCart?.map(item => {
+    return {...item, priceChanged : item.quantity * item.price}
+  })
+  if (isUpdateCart && currentCart) {
+    const response = await User.findByIdAndUpdate({_id}, {$set : { cart : finalCurrentCart }}, {new : true})
+    return res.status(response ? 200 : 500).json({
+      success : response ? true : false,
+      message : response ? 'Update cart user successfully' : 'Update cart user failed',
+      response
+    })
+  }
+  if (!productId || !price) throw new Error('Missing Inputs');
   const response = await servicesUser.updateUserCart(_id, req.body);
   return res.status(200).json(response)
 })
-module.exports = { register_Admin, uploadAvatar, register, login, account_register, refreshAccessToken, deleteUser, updateUser, updateUserByAdmin, updateUserAddress, updateUserCart, logout, forgotPassword, resetPassword, getOneUser, getUsers };
+const removeProductCart = asyncHandler(async (req, res) => {
+  const { _id } = req.user;
+  const { cartId } = req.params;
+  const user = await User.find({_id});
+  const isProduct = user[0]?.cart?.find(item => item._id.toString() === cartId);
+  console.log(isProduct);
+  if (isProduct) {
+    const response = await User.findByIdAndUpdate({_id}, {$pull : { cart : { _id : cartId} }}, { new : true })
+    return res.status(200).json({
+      message : response ? 'Product removed from cart successfully' : 'Remove product from cart failed',
+      success : response ? true : false,
+      response
+    })
+  } else {
+    return res.status(200).json({
+      message : 'No products in cart',
+      success : false,
+      response : null
+    })
+  }
+})
+module.exports = { register_Admin, removeProductCart, uploadAvatar, register, login, account_register, refreshAccessToken, deleteUser, updateUser, updateUserByAdmin, updateUserAddress, updateUserCart, logout, forgotPassword, resetPassword, getOneUser, getUsers };

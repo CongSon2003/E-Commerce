@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import Path from "./ultils/path";
 import { Route, Routes } from "react-router-dom";
-import { Home, Login, Open } from "./pages/public";
+import { Cart, Home, Login, Open } from "./pages/public";
 import { getProductCategories } from "./store/app/asyncAppAction";
 import { getNewProducts } from "./store/products/asyncProductsAction";
 import { useDispatch, useSelector } from "react-redux";
@@ -17,19 +17,25 @@ import {
 } from "./pages/public";
 import { ToastContainer } from "react-toastify";
 import { AdminLayout, Dashboard, ManagerOrder, ManagerProduct,  CreatedProducts, ManagerUsers, UpdateProduct, ProductVarriantions } from "pages/admin";
-import { MyCart, Personal, PurchaseHistory, UserLayout, WishList } from './pages/member'
+import { Checkout, MyCart, Personal, PurchaseHistory, UserLayout } from './pages/member'
+import { RightCart, WishList } from './component/pages'
+import { showRightCart } from "store/app/appSlice";
 function App() {
   const dispatch = useDispatch();
-  const { isShowModel, dataModel } = useSelector(state => state.appReducer);
+  const { isShowModel, dataModel, isShowRightCart } = useSelector(state => state.appReducer);
   useEffect(() => {
     // Fetch product categories when the app loads
     dispatch(getProductCategories());
     dispatch(getNewProducts());
   }, [dispatch]);
   return (
-    <div className="min-h-screen relative">
+    <div className="relative">
+      {isShowRightCart && <div onClick={() => dispatch(showRightCart({isShowRightCart : false}))} className="absolute inset-0 bg-[#0000004D] z-50 flex justify-end">
+        <RightCart/>
+      </div>}
       {isShowModel && <Modal children={dataModel}></Modal>}
       <Routes>
+        <Route path={Path.CHECKOUT_URL} element = {<Checkout/>}/>
         <Route path={Path.PUBLIC_URL} element={<Open />}>
           <Route path={Path.HOME_URL} element={<Home />} />
           <Route path={Path.LOGIN_URL} element={<Login />} />
@@ -40,9 +46,11 @@ function App() {
             path={Path.DETAIL_PRODUCT__CATEGORY__PID__TITLE}
             element={<DetailProduct />}
           />
+          <Route path = {Path.PAGE_WISHLIST_URL} element={<WishList/>}/>
           <Route element={<AccountRegister />} path={Path.ACCOUNT_REGISTER} />
           <Route path={Path.RESET_PASSWORD} element={<ResetPassword />} />
           <Route path="*" element={<NotFound />} />
+          <Route path={Path.PAGE_CART_URL} element={<Cart/>} />
         </Route>
         <Route path= {Path.ADMIN_URL} element = {<AdminLayout/>}>
           <Route path={Path.DASHBOARD_URL} element= {<Dashboard/>}/>

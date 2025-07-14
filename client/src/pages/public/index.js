@@ -8,3 +8,4 @@ export { default as NotFound } from './NotFound';
 export { default as AccountRegister } from './AccountRegister';
 export { default as ResetPassword } from './ResetPassword';
 export { default as ProductAll } from './ProductsAll';
+export { default as Cart } from './Cart';

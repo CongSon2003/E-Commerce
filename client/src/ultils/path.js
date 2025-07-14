@@ -12,7 +12,8 @@ const path = {
   FAQ_URL : 'faq',
   DETAIL_PRODUCT__CATEGORY__PID__TITLE: 'products/:category/:productId/:title',
   DETAIL_PRODUCT : 'products',
-
+  PAGE_WISHLIST_URL : 'wish-list',
+  PAGE_CART_URL : 'cart',
 
   // ADMIN : 
   ADMIN_URL : 'admin',
@@ -29,7 +30,9 @@ const path = {
   PERSONAL_URL : 'personal',
   WISHLIST_URL : 'whishlist',
   PURCHASE_HISTORY_URL : 'perchase-history',
-  MYCART_URL : 'my-cart'
+  MYCART_URL : 'my-cart',
+
+  CHECKOUT_URL : 'checkout',
 };
 
 export default path;

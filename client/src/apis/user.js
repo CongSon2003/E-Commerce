@@ -76,3 +76,24 @@ export const apiUpdateUserAdmin = (data,_id) => {
     throw error
   }
 }
+export const apiUpdateCartUser = (data) => {
+  try {
+    return axios({
+      url :  `/user/updateUserCart`,
+      method : 'PUT',
+      data,
+    })
+  } catch (error) {
+    throw error
+  }
+}
+export const apiRemoveProductInCartUser = (cartId) => {
+  try {
+    return axios({
+      url :  `/user/removeProductInCart/${cartId}`,
+      method : 'DELETE',
+    })
+  } catch (error) {
+    throw error
+  }
+}

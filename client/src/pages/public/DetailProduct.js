@@ -1,6 +1,6 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
-import { apigetOneProduct } from '../../apis';
+import { apigetOneProduct, apiUpdateCartUser } from '../../apis';
 import { ProductInformation } from '../../component/products';
 import { Breadcrumb } from '../../component/common';
 import { SelectQuantity } from '../../component/search';
@@ -20,8 +20,13 @@ import path from '../../ultils/path';
 import { apigetProducts } from "../../apis";
 import DOMPurify from 'dompurify';
 import clsx from 'clsx';
-const DetailProduct = () => {
+import { useSelector } from 'react-redux';
+import withBase from 'HOCS/withBase';
+import { getCurrentUser } from 'store/user/asyncUserAction';
+import { toast } from 'react-toastify';
+const DetailProduct = ({dispatch, navigate}) => {
   // eslint-disable-next-line no-unused-vars
+  const headRef = useRef();
   const {productId, title, category} = useParams();
   const [isupdate, setIsUpdate] = useState(false);
   const [product, setProduct] = useState(null);
@@ -32,9 +37,16 @@ const DetailProduct = () => {
     images : [],
     price : '',
   }) 
+  const { isLoggedIn, currentUser, currentCart } = useSelector(state => state.userReducer);
   const [varriant, setVarriant] = useState(null);
-  const [quantity, setQuantity] = useState(1);
+  const [getQuantity, setGetQuantity] = useState(1);
   var settings = {
+    dots: false,
+    infinite: true,
+    slidesToShow: 4,
+  };
+  console.log(currentCart);
+  var settings_Detail = {
     dots: false,
     infinite: true,
     slidesToShow: 3,
@@ -67,6 +79,7 @@ const DetailProduct = () => {
     fetchGetOneProduct();
     fetchGetProducts();
     window.scrollTo(0,0)
+    headRef.current.scrollIntoView({block : 'start'})
   },[productId, category]);
   useEffect(() => {
     const fetchGetOneProduct = async () => {
@@ -97,18 +110,27 @@ const DetailProduct = () => {
       }
     }
   },[varriant, product]);
-  console.log(varriant);
   const handleIsUpdate = useCallback(()=> {
     setIsUpdate(!isupdate);
   },[isupdate])
-  const handleQuantity = useCallback((value) => {
-    setQuantity(value)
+  const handleGetQuantity = useCallback((value) => {
+    setGetQuantity(value);
   },[]);
-  console.log(product?.description?.lenght);
-  console.log(selectImg);
-  console.log(currentProduct);
+  const handleAddCart = async () => {
+    if (!isLoggedIn && !currentUser) {
+      navigate(`/${path.LOGIN_URL}`)
+    }
+    const result = await apiUpdateCartUser({ productId : product?._id, color : currentProduct.color, quantity : getQuantity, thumb : varriant !== null ? product.varriants.find(item => item.sku === varriant).thumb : product.thumb, price : currentProduct.price});
+    if (result?.success) {
+      toast.success('Add to cart successfully')
+      dispatch(getCurrentUser())
+    } else {
+      toast.error('Add to cart failed')
+    }
+  }
+  console.log(getQuantity);
   return (
-    <div className='w-full flex flex-col gap-5'>
+    <div ref={headRef} className='w-full flex flex-col gap-5'>
       <Breadcrumb title={product?.title} category={product?.category}/> 
       <div className='w-full bg-white flex justify-center'>
         <div className='w-main flex flex-col gap-4'>
@@ -132,7 +154,7 @@ const DetailProduct = () => {
                   }} />
                 </div>
                 <div className='w-full'>
-                  <Slider {...settings} className='ProductThumbs flex gap-1'>
+                  <Slider {...settings_Detail} className='ProductThumbs flex gap-1'>
                     {currentProduct?.images?.map((img) => (
                       <div className='flex w-full border gap-1 cursor-pointer'>
                         <img src={`${img}`} alt='' onClick={() => setSelectImg(img)} className='object-contain h-[143px] w-[143px]'/>
@@ -141,7 +163,7 @@ const DetailProduct = () => {
                   </Slider>
                 </div>
               </div>
-              <div className='w-3/5 pl-[45px] flex'>
+              <div className='w-3/5 pl-[45px] flex gap-[10px]'>
                 <div className='flex flex-6 flex-col gap-3'>
                   <h3 className='font-semibold text-4xl text-[#333] mb-1'>{`${fomantMoney(+currentProduct?.price)} VND`}</h3>
                   <div className="flex items-center gap-1">
@@ -162,22 +184,13 @@ const DetailProduct = () => {
                     {product?.description?.length === 1 && <div className='line-clamp-[10' dangerouslySetInnerHTML={{__html : DOMPurify.sanitize(product?.description[0])}}></div>}
                   </ul>
                   <div className='flex flex-col gap-3'>
-                    {/* <div className='flex items-center'>
-                      <h4 className='flex-2 font-semibold'>Internal</h4>
-                      <ul className='flex flex-8 items-center gap-2'>
-                        <li className='py-[9px] px-[11px] border'>32GB</li>
-                        <li className='py-[9px] px-[11px] border'>64GB</li>
-                        <li className='py-[9px] px-[11px] border'>128GB</li>
-                      </ul>
-                    </div> */}
                     <div className='flex items-center gap-2'>
                       <h4 className='font-semibold flex-2'>Color</h4>
                       <div className='flex flex-wrap gap-2 flex-8'>
                         <div onClick={() => setVarriant(null)} className={clsx(`relative flex items-center border p-2 cursor-pointer hover:border-red-500 gap-2 hover:text-red-500`, varriant === null && 'border-red-500 text-red-500')}>
                           <img src={product?.thumb} alt='' className='w-10 h-10 object-contain'/>
                           <span className='flex flex-col'>
-                            <span>{product?.color}</span>
-                            {/* <span>{product?.price}</span> */}
+                            <span className='uppercase'>{product?.color}</span>
                           </span>
                           {varriant === null && <div className='absolute triangle-bottomright bottom-0 right-0'><TiTick className='absolute right-[-3px] top-[5px]' color='white'/></div>}
                         </div>
@@ -187,7 +200,6 @@ const DetailProduct = () => {
                               <img src={item?.thumb} alt='' className='w-10 h-10 object-contain'/>
                               <span className='flex flex-col'>
                                 <span>{item?.color}</span>
-                                {/* <span>{product?.price}</span> */}
                             </span>
                               {item?.sku === varriant && <div className='absolute triangle-bottomright bottom-0 right-0'><TiTick className='absolute right-[-3px] top-[5px]' color='white'/></div>}
                             </div>
@@ -202,9 +214,9 @@ const DetailProduct = () => {
                         <li className='py-[9px] px-[11px] border'>3GB</li>
                       </ul>
                     </div> */}
-                    <SelectQuantity quantity={quantity} handleQuantity={handleQuantity}/>
+                    <SelectQuantity handleGetQuantity={handleGetQuantity}  type={'detailCart'}/>
                   </div>
-                  <button type='button' className='py-[11px] px-[15px] bg-main text-white hover:bg-[#474747]'>ADD TO CART</button>
+                  <button type='button' onClick={() => handleAddCart()} className='py-[11px] px-[15px] bg-main text-white hover:bg-[#474747]'>ADD TO CART</button>
                   <div className='flex items-center gap-4'>
                     <div className='w-[35px] h-[35px] bg-black flex items-center justify-center rounded-full'>
                       <FaFacebookF className="cursor-pointer" color='white' />
@@ -293,4 +305,4 @@ const DetailProduct = () => {
   )
 }
 
-export default DetailProduct
+export default withBase(DetailProduct)

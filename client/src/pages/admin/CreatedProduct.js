@@ -103,7 +103,7 @@ const CreatedProduct = () => {
         <h1 className='text-2xl font-medium uppercase'>Created Product</h1>
       </header>
       <div className='flex gap-4 w-full h-full justify-center'>
-        <form onSubmit={handleSubmit(onSubmit)} className='flex flex-col gap-4 w-8/12 bg-[#F1EFEC] border p-4 rounded-md shadow-md'>
+        <form onSubmit={handleSubmit(onSubmit)} className='flex flex-col gap-4 w-8/12 bg-[#FFFCFB] border p-4 rounded-md shadow-md'>
           <div>
             <label htmlFor='Product-title' className='block mb-2 text-sm font-medium text-gray-700 cursor-pointer'>Product Title</label>
             <input id='Product-title' {...register('title', { required : 'Please enter your product title'})} placeholder='Enter your product title' className='w-full border p-2 rounded-md'/>

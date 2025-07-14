@@ -1,13 +1,14 @@
 const asyncHandler = require("express-async-handler");
 const Product = require("../models/product");
 const ProductCategory = require("../models/productCategory");
-const dataProduct = require("../data/data2.json");
+const dataProduct = require("../data/ecommerce.json");
 const dataProductCategory = require("../data/cate_brand");
 const getNumberFromString = require("../ultils/getNumber");
 const slugify = require("slugify");
 
 const createProduct = async (data) => {
-  console.log(slugify(data?.name, { locale: "vi", lower: true }));
+  // console.log(slugify(data?.name, { locale: "vi", lower: true }));
+  console.log(data);
   await Product.create({
     title: data?.name,
     description: data?.description,

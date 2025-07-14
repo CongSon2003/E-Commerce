@@ -6,21 +6,21 @@ var settings = {
   dots: false,
   infinite: false,
   speed: 500,
-  slidesToShow: 3,
+  slidesToShow: 4,
   slidesToScroll: 1,
 };
 const NewArrivals = () => {
   const { NewProducts } = useSelector(state => state.productsReducer);
   return (
-    <div className='flex flex-col w-full gap-5'>
+    <div className='flex flex-col w-full gap-[10px]'>
       <header className='border-b-2 border-solid border-[#ee3131] text-[20px]'>
-        <h2 className='uppercase py-[15px] font-semibold'>New Arrivals</h2>
+        <h2 className='uppercase pb-[15px] font-semibold'>New Arrivals</h2>
       </header>
       <div className='flex flex-col mx-[-10px]'>
         <Slider {...settings}>
           { NewProducts?.map(product => {
             return (
-              <ItemProduct isNew={false} key={product._id} itemProductData={product}/>
+              <ItemProduct isNew={false} key={product._id} itemProductData={product} type={'NewArrivals'}/>
             )
           })}
         </Slider>

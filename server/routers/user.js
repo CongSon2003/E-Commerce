@@ -19,4 +19,5 @@ router.put('/updateUser', verify_AccessToken, fileUploader.single('avatar'), con
 router.put('/updateUserByAdmin/:_id', [verify_AccessToken, isAdmin], controllerUser.updateUserByAdmin);
 router.put('/updateUserAddress', [verify_AccessToken, isAdmin], controllerUser.updateUserAddress);
 router.put('/updateUserCart', [verify_AccessToken], controllerUser.updateUserCart);
+router.delete('/removeProductInCart/:cartId', [verify_AccessToken], controllerUser.removeProductCart);
 module.exports = router;

@@ -3,9 +3,9 @@ import { Outlet } from 'react-router-dom'
 import { Footer, Header} from '../../component/public';
 const Open = () => {
   return (
-    <div className='w-full h-full flex flex-col justify-center items-center gap-5'>
+    <div className='flex flex-col gap-5 overflow-auto h-screen'>
       <Header />
-      <div className='w-full flex justify-center flex-col'>
+      <div className='w-full flex flex-col'>
         <Outlet />
       </div>
       <Footer/>

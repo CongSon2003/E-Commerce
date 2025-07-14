@@ -7,10 +7,16 @@ import productsSlice from "./products/productSlice";
 const persistConfig = {
   key : 'user',
   storage,
+  blacklist : ['currentCart']
+}
+const persistConfigApp = {
+  key : 'App',
+  storage,
+  whitelist : ['wishListLocal']
 }
 export const store = configureStore({
   reducer: {
-    appReducer: appSlice,
+    appReducer: persistReducer(persistConfigApp, appSlice),
     productsReducer : productsSlice,
     userReducer : persistReducer(persistConfig, userSlice)
   },
