@@ -38,7 +38,9 @@
   +, $bit : cập nhật bit
   +, $isolated : cập nhật độc lập
   +, $unset : xóa trường
-  +, $elemMatch là một toán tử được sử dụng trong truy vấn để tìm các tài liệu có ít nhất một phần tử trong một mảng thỏa mãn một hoặc nhiều điều kiện
+  +, $elemMatch : 
+    -, là một toán tử được sử dụng trong truy vấn để tìm các tài liệu có ít nhất một phần tử trong một mảng thỏa mãn một hoặc nhiều điều kiện
+    -, Câu truy vấn này sẽ trả về tất cả các tài liệu của người dùng thoa man dk
   +, .aggregate : 
     -, $match : Dùng để lọc các tài liệu (documents) dựa trên một điều kiện nhất định.
     -, $project : Dùng để định hình lại các tài liệu trong kết quả. Bạn có thể thêm, xóa hoặc thay đổi các trường trong tài liệu kết quả. (1 : nấy; 0 : bỏ)

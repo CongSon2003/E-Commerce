@@ -13,7 +13,6 @@ const Breadcrumb = ({title, category}) => {
     { path : '/products/:category/:productId/:title', breadcrumbs : title}
   ];
   const breadcrumbs = useBreadcrumbs(routes);
-  console.log(breadcrumbs);
   return (
     <div className='w-full bg-[#f7f7f7] flex flex-col justify-center items-center py-[15px] mt-[-20px]'>
       <div className='w-main flex flex-col gap-2'>

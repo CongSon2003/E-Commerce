@@ -15,7 +15,6 @@ const Personal = () => {
   const [previewAvatar, setPreviewAvatar] = useState("");
   const [isHoveredAvatar, setIsHoveredAvatar] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  console.log(currentUser);
   const dispatch = useDispatch();
   const OnSubmit = async (data) => {
     const { role, createdAt, status, ...finalData} = data;
@@ -82,8 +81,8 @@ const Personal = () => {
             <div className='flex flex-col gap-2'>
               <div>
                 <label onMouseEnter={() => setIsHoveredAvatar(true)} onMouseLeave={() => setIsHoveredAvatar(false)} htmlFor='uploadAvatar' className='cursor-pointer'>
-                  <div className='w-32 h-32 relative '>
-                    <img src={previewAvatar || null} alt='avatar' className='rounded-[50%] w-full h-full object-cover'/>
+                  <div className='w-32 h-32 relative'>
+                    <img src={previewAvatar || null} alt='avatar' className='rounded-[50%] w-full h-full object-cover border'/>
                     {isHoveredAvatar && <div className='absolute top-0 left-0 bottom-0 right-0 flex justify-center bg-[rgba(0,0,0,0.5)] items-center rounded-[50%]'>
                       <IoCreateSharp color='white' size={23}/>
                     </div>}

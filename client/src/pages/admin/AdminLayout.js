@@ -16,7 +16,7 @@ const Admin = () => {
       <div className='flex w-full'>
         <div className='w-full flex justify-end'>
           <AdminSideBar/>
-          <div className='w-[84%] flex'>
+          <div className='w-[84%] flex min-h-screen bg-[#EFEEEA]'>
             <Outlet/>
           </div>
         </div>

@@ -9,10 +9,10 @@ const GalleryAdvanced = () => {
         </div>
         <div className='w-1/4 flex flex-col gap-5'>
           <div className=''>
-            <img src='https://digital-world-2.myshopify.com/cdn/shop/files/banner2-bottom-home2_400x.jpg?v=1613166661' className='w-full object-contain' alt=''/>
+            <img src='https://digital-world-2.myshopify.com/cdn/shop/files/Orange_Colorful_Juicer_Photo_Instagram_Post_280_x_338_px_1_400x.png?v=1750860819' className='w-full object-contain' alt=''/>
           </div>
           <div className=''>
-            <img src='https://digital-world-2.myshopify.com/cdn/shop/files/banner3-bottom-home2_400x.jpg?v=1613166661' className='w-full object-contain' alt=''/>
+            <img src='https://digital-world-2.myshopify.com/cdn/shop/files/Red_and_Yellow_Classic_Neutrals_Cooking_Set_Product_Summer_Instagram_Post_280_x_338_px_1_cd2b3108-c6f2-4ee5-9597-8a501c61f0d6_400x.png?v=1750861662' className='w-full object-contain' alt=''/>
           </div>
         </div>
         <div className='w-1/4'> 

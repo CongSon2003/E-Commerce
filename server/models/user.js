@@ -41,6 +41,9 @@ var userSchema = new mongoose.Schema(
           min: 1,
         },
         color: String,
+        thumb : String,
+        price : Number,
+        priceChanged : Number
       },
     ],
     address: String,

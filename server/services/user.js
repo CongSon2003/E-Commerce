@@ -201,39 +201,34 @@ const updateUserCart = (_id, body) => new Promise(async (resolve, reject) => {
   try {
     // Tìm user theo _id đã được gửi
     const user = await User.findById(_id);
-    // Kiểm tra xem sản phẩm thêm vào đã có trong rỏ hàng hay chưa 
-    const isProduct = user?.cart?.find(El_cart => El_cart.productId.toString() === body.productId);
-    // Nếu sản phẩm đã có trong rỏ hàng thì update lại (quantity, color,...) của sản phẩm đó
-    console.log(isProduct);
-    if (isProduct) {
-      console.log(isProduct);
-      // Nếu màu sắc của sản phẩm đã có trong rỏ hàng thì update lại quantity
-      if (isProduct.color === body.color) {
-        const response = await User.updateOne({_id, "cart.productId" : isProduct.productId}, {$set : { "cart.$.quantity" : body.quantity}})
-        return resolve({
-          success : response ? true : false,
-          message : response ? 'Update cart user successfully' : 'Update cart user failed',
-          response 
-        })
-      } else {
-        // Nếu màu sắc của sản phẩm chưa có trong rỏ hàng thì thêm mới sản phẩm đó vào rỏ hàng
-        const response = await User.findByIdAndUpdate(_id, {$push : {cart : { productId : body.productId, quantity : body.quantity, color : body.color}}}, { new : true }).select('-password -refreshToken')
-        return resolve({
-          success : response ? true : false,
-          message : response ? 'Update cart user successfully' : 'Update cart user failed',
-          response
-        })
+    // Danh sách color trong cart của sản phẩm theo productId;
+    const arrayColorInCart = [];
+    const priceChanged = body.quantity * body.price;
+    console.log(priceChanged);
+    user.cart.forEach(item => {
+      if (!arrayColorInCart.includes(item.color) && item.product.toString() === body.productId) {
+        arrayColorInCart.push(item.color);
       }
+    })
+    // Nếu sản phẩm đã có trong rỏ hàng thì update lại (quantity, color,...) của sản phẩm đó
+    if (arrayColorInCart.includes(body.color)) {
+      // Tìm phần từ cart để update:
+      const elCartbyProductId = user.cart.find(item => (item.product.toString() === body.productId && item.color === body.color))
+      const response = await User.updateOne({cart :  { $elemMatch : elCartbyProductId }}, {$set : { "cart.$.quantity" : body.quantity, "cart.$.color" : body.color, "cart.$.thumb" : body.thumb, "cart.$.price" : body.price, "cart.$.priceChanged" : priceChanged}})
+      return resolve({
+        success : response ? true : false,
+        message : response ? 'Update cart user successfully' : 'Update cart user failed',
+        response 
+      })
     } else {
       // Nếu sản phẩm chưa có trong rỏ hàng thì thêm mới sản phẩm đó vào rỏ hàng
-      const response = await User.findByIdAndUpdate(_id, {$push : {cart : { product : body.productId, quantity : body.quantity, color : body.color}}}, { new : true }).select('-password -refreshToken')
+      const response = await User.findByIdAndUpdate(_id, {$push : {cart : { product : body.productId, quantity : body.quantity, color : body.color, thumb : body.thumb, price : body.price, priceChanged}}}, { new : true }).select('-password -refreshToken')
       return resolve({
         success : response ? true : false,
         message : response ? 'Update cart user successfully' : 'Update cart user failed',
         response
       })
     }
-
   } catch (error) {
     reject(error)
   }

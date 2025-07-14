@@ -47,7 +47,7 @@ const Bestsellers = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeTab]);
   return (
-    <div className="flex flex-col gap-5">
+    <div className="flex flex-col gap-[10px]">
       <div className="pb-[15px] border-b-2 border-solid border-[#ee3131] text-[20px] flex">
         {Navtabs.map((tab) => {
           return (

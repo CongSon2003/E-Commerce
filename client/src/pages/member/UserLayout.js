@@ -12,7 +12,7 @@ const UserLayout = () => {
     <div className='flex w-full'>
         <div className='w-full flex justify-end'>
           <UserSideBar/>
-          <div className='w-[84%] flex'>
+          <div className='w-[84%] flex bg-[#EFEEEA] h-screen'>
             <Outlet/>
           </div>
         </div>
