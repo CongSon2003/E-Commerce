@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState } from 'react'
+import React, { Fragment, useState } from 'react'
 import logo from '../../assets/logo_digital_new_250x.png'
 import { adminSideBar } from 'ultils/contant'
 import { NavLink } from 'react-router-dom'
@@ -11,7 +11,6 @@ const activeStyle = 'px-4 py-2 flex items-center gap-2 bg-gray-200 text-black'
 const notActiveStyle = 'px-4 py-2 flex items-center gap-2 hover:text-main'
 const AdminSideBar = () => {
   const [isClickManagerProducts, setIsClickManagerProducts] = useState(false);
-  
   return (
     <div className='bg-white text-black flex min-h-screen w-[16%] flex-col py-4 fixed left-0 top-0 z-50'>
       <div className='flex flex-col text-center items-center gap-2 p-4'>

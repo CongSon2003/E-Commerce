@@ -135,3 +135,4 @@ https://digital-world-store.myshopify.com/collections/smartphone
 
       console.log(obj); 
       // Kết quả: { name: 'Alice', age: 25, city: 'New York' }
++, npm:  react-use là một thư viện nhỏ gọn và hữu ích dành cho React, cung cấp một bộ các hook để giúp bạn thực hiện những công việc thường gặp trong quá trình phát triển ứng dụng. Thay vì phải viết lại logic cho các tính năng cơ bản, bạn có thể sử dụng các hook có sẵn trong react-use để tiết kiệm thời gian và giảm độ phức tạp của mã nguồn.

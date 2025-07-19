@@ -17,7 +17,7 @@ import {
 } from "./pages/public";
 import { ToastContainer } from "react-toastify";
 import { AdminLayout, Dashboard, ManagerOrder, ManagerProduct,  CreatedProducts, ManagerUsers, UpdateProduct, ProductVarriantions } from "pages/admin";
-import { Checkout, MyCart, Personal, PurchaseHistory, UserLayout } from './pages/member'
+import { Checkout, MyCart, Personal, PurchaseHistory, UserLayout, MyWishList } from './pages/member'
 import { RightCart, WishList } from './component/pages'
 import { showRightCart } from "store/app/appSlice";
 function App() {
@@ -28,11 +28,17 @@ function App() {
     dispatch(getProductCategories());
     dispatch(getNewProducts());
   }, [dispatch]);
+  console.log(isShowRightCart);
   return (
     <div className="relative">
-      {isShowRightCart && <div onClick={() => dispatch(showRightCart({isShowRightCart : false}))} className="absolute inset-0 bg-[#0000004D] z-50 flex justify-end">
-        <RightCart/>
-      </div>}
+      {
+        <>
+          <div onClick={() => dispatch(showRightCart({isShowRightCart : 3}))} className={`absolute inset-0 bg-[#0000004D] z-40 ${isShowRightCart === 3 && 'invisible'}`}></div>
+          <div className="absolute right-[400px] top-0 bottom-0 z-50">
+            <RightCart/>
+          </div>
+        </>
+      }
       {isShowModel && <Modal children={dataModel}></Modal>}
       <Routes>
         <Route path={Path.CHECKOUT_URL} element = {<Checkout/>}/>
@@ -65,7 +71,7 @@ function App() {
           <Route path={Path.PERSONAL_URL} element = {<Personal/>}/>
           <Route path={Path.MYCART_URL} element= {<MyCart/>}/>
           <Route path={Path.PURCHASE_HISTORY_URL} element= {<PurchaseHistory/>}/>
-          <Route path={Path.WISHLIST_URL} element={<WishList/>}/>
+          <Route path={Path.WISHLIST_URL} element={<MyWishList/>}/>
         </Route>
       </Routes>
       <ToastContainer

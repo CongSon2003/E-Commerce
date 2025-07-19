@@ -2,9 +2,10 @@ import path from "./path";
 import { MdDashboard } from "react-icons/md";
 import { IoIosCreate } from "react-icons/io";
 import { MdManageAccounts } from "react-icons/md";
-import { FaRegUser } from "react-icons/fa";
+import { FaHistory, FaRegUser } from "react-icons/fa";
 import { IoCartOutline } from "react-icons/io5";
 import { CgMenuBoxed } from "react-icons/cg";
+export const exchangeRate =  0.0000382340; // 1 VND = 0.000042 USD
 export const navigation = [
   {
     id: 1,
@@ -18,8 +19,31 @@ export const navigation = [
   },
   {
     id: 3,
-    value: "OUR SERVICES",
-    path: `/${path.OUR_SERVISES_URL}`,
+    value: "PAGES",
+    type : 'parent',
+    path: `/${path.PAGE_CONTATS_US_URL}`,
+    submenu : [
+      {
+        text : 'About Us',
+        path : `/pages/about-us`
+      },
+      {
+        text : 'Our Services',
+        path : `/pages/services`
+      },
+      {
+        text : 'FAQs',
+        path : `/pages/faq`
+      },
+      {
+        text : 'Typography',
+        path : `/pages/typography`
+      },
+      {
+        text : 'Heading',
+        path : `/pages/heading`
+      }
+    ]
   },
   {
     id: 4,
@@ -158,7 +182,7 @@ export const userSideBar = [
     type : 'single',
     text : 'Purchase history',
     path : `/${path.MEMBER_URL}/${path.PURCHASE_HISTORY_URL}`,
-    icon : <CgMenuBoxed/>
+    icon : <FaHistory/>
   },
   {
     id : 4,
@@ -176,5 +200,11 @@ export const roles = [
   {
     code : 1975,
     value : 'user'
+  }
+]
+export const EstimatedTaxes = [
+  {
+    currency : 'VND',
+    Tax : 1000
   }
 ]

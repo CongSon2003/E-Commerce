@@ -7,7 +7,6 @@ import productsSlice from "./products/productSlice";
 const persistConfig = {
   key : 'user',
   storage,
-  blacklist : ['currentCart']
 }
 const persistConfigApp = {
   key : 'App',

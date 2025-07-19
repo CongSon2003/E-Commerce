@@ -29,24 +29,30 @@ const handleCoupon = async (coupon, total) => {
 }
 const createOrder = asyncHandler(async (req, res) => {
   const { _id } = req.user;
-  const { coupon, paymentMethod } = req.body;
-  const userCart = await User.findById(_id).select("cart").populate("cart.product","title price");
-  const total = userCart?.cart.reduce((sum, item) => {
-    const productPrice = item.product.price;
-    const productCount = item.quantity;
-    return sum + (productPrice * productCount);
-  }, 0);
-  const totalAfterCoupon = await handleCoupon(coupon, total);
-  const products = userCart.cart.map(item => ({
-    product : item.product,
-    count : item.quantity,
-    color : item.color,
-  }));
-  console.log(totalAfterCoupon);
-  const dataCreate = { customerId : _id, products, coupon, total : totalAfterCoupon, paymentMethod};
-  const response = await Order.create(dataCreate);
-  return res.status(200).json({
-    response
+  const { coupon, paymentMethod, products, total, address, isPayment } = req.body;
+  // const userCart = await User.findById(_id).select("cart").populate("cart.product","title price");
+  // const total = userCart?.cart.reduce((sum, item) => {
+  //   const productPrice = item.product.price;
+  //   const productCount = item.quantity;
+  //   return sum + (productPrice * productCount);
+  // }, 0);
+  // const totalAfterCoupon = await handleCoupon(coupon, total);
+  // const products = userCart.cart.map(item => ({
+  //   product : item.product,
+  //   count : item.quantity,
+  //   color : item.color,
+  // }));
+  // const dataCreate = { customerId : _id, products, coupon, total : totalAfterCoupon, paymentMethod};
+  console.log(total);
+  console.log(address);
+  const response = await Order.create({products, customerId : _id, paymentMethod, total,isPayment});
+  if (response) {
+    await User.findByIdAndUpdate({_id}, {$set : {address, cart : []}}, { new : true })
+  }
+  return res.status(200).json({ 
+    response,
+    success : response ? true : false,
+    message : response ? 'Order created successfully' : 'Order creation failed'
   });
 });
 
@@ -67,7 +73,7 @@ const updateStatus = asyncHandler(async (req, res) => {
 // Hàm này sẽ tìm kiếm tất cả các đơn hàng của người dùng dựa trên ID người dùng (customerId).
 const getOrdersUser = asyncHandler(async (req, res) => {
   const { _id } = req.user;
-  const orders = await Order.find({customerId : _id})
+  const orders = await Order.find({customerId : _id}).populate('products.product')
   return res.status(200).json({
     message: orders ? "Get orders successfully" : "No order found",
     count : orders.length,

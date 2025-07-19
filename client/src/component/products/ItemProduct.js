@@ -1,4 +1,4 @@
-import React, { memo, use, useEffect, useState } from "react";
+import React, { memo, useEffect, useState } from "react";
 import { fomantMoney } from "../../ultils/helper";
 import newLabel from '../../assets/new.png';
 import trendingLabel from '../../assets/trending.png';
@@ -22,6 +22,7 @@ import path from "ultils/path";
 import { getCurrentUser } from "store/user/asyncUserAction";
 const ItemProduct = ({ itemProductData, isNew, normal, type, navigate, dispatch }) => {
   const [hoverSelectOption, SetHoverSelectOption] = useState(false);
+  const [hoverSelect, setHoverSelect] = useState(1);
   const { wishListLocal } = useSelector(state => state.appReducer);
   const { isLoggedIn, currentUser } = useSelector(state => state.userReducer);
   const [isCheckCart, setIsCheckCart] = useState(false);
@@ -43,6 +44,12 @@ const ItemProduct = ({ itemProductData, isNew, normal, type, navigate, dispatch 
       setIsCheckCart(currentUser?.cart?.some(item => item.product._id === itemProductData._id))
     }
   },[currentUser, isLoggedIn, itemProductData])
+  /*
+  ${
+                hoverSelectOption
+                  ? "animate-slide-top"
+                  : "animate-slide-out-bottom"
+              }`*/
   return (
     <div className="text-base w-full px-[10px] py-[10px]">
     
@@ -50,21 +57,19 @@ const ItemProduct = ({ itemProductData, isNew, normal, type, navigate, dispatch 
         onMouseEnter={(e) => {
           e.stopPropagation();
           SetHoverSelectOption(true);
+          setHoverSelect(2);
         }}
         onMouseLeave={(e) => {
           e.stopPropagation();
           SetHoverSelectOption(false);
+          setHoverSelect(3)
         }}
         className="w-full relative border p-[15px] flex flex-auto flex-col justify-center bg-white"
       >
         <div className="w-full mb-[20px] relative">
           { type !== 'NewArrivals' && 
             <div
-              className={`absolute flex gap-3 bottom-0 justify-center w-full ${
-                hoverSelectOption
-                  ? "animate-slide-top"
-                  : "animate-slide-out-bottom"
-              }`}
+              className={`absolute flex gap-3 bottom-0 justify-center w-full ${hoverSelect === 2 ? "animate-slide-top" : hoverSelect === 3 ? "animate-slide-out-bottom" : "opacity-0"}`}
             >
               <button onClick={() => dispatch(wishList({thumb : itemProductData.thumb, price : itemProductData.price, title : itemProductData.title, category: itemProductData.category, slug : itemProductData.slug, _id : itemProductData._id}))}><SelectOption icon={wishListLocal?.some(item => item._id === itemProductData._id) ? <FaCheck/> : <FaHeart/>}/></button>
               <button title="a" onClick={() => handleAddCart()} className="border-none outline-none"><SelectOption icon={isCheckCart ? <BsCartCheckFill/> : <BsFillCartPlusFill />} /></button>

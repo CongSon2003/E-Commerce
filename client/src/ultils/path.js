@@ -14,7 +14,7 @@ const path = {
   DETAIL_PRODUCT : 'products',
   PAGE_WISHLIST_URL : 'wish-list',
   PAGE_CART_URL : 'cart',
-
+  PAGE_CONTATS_US_URL : 'pages/contact-us',
   // ADMIN : 
   ADMIN_URL : 'admin',
   DASHBOARD_URL : 'dash-board',

@@ -53,7 +53,8 @@ const Personal = () => {
         role : currentUser.role === 1945 ? 'Admin' : 'User',
         status : currentUser.isBlocked === true ? 'Blocked' : 'Active',
         createdAt : moment(currentUser.createdAt).format('DD/MM/YYYY'),
-        avatar : currentUser.avatar
+        avatar : currentUser.avatar,
+        address : currentUser.address
       })
       setPreviewAvatar(currentUser.avatar)
     }
@@ -102,6 +103,11 @@ const Personal = () => {
               <label htmlFor='lastname'>Last name</label>
               <input type='text' id='lastname' {...register('lastname')} className='p-2 w-full border-2 rounded-md'/>
             </div>
+            <div>
+              <label htmlFor='Phone'>Phone</label>
+              <input type='number' id='mobile' {...register('mobile', { required: 'Please enter your mobile', pattern : { value : /^0[3|5|7|8|9]\d{8}$/, message : 'Invalid phone number!'}})} className='p-2 w-full border-2 rounded-md'/>
+              <small className='text-red-500'>{errors?.mobile?.message}</small>
+            </div>
           </div>
           <div>
             <label htmlFor='email'>Email</label>
@@ -109,9 +115,9 @@ const Personal = () => {
             <small className='text-red-500'>{errors?.email?.message}</small>
           </div>
           <div>
-            <label htmlFor='Phone'>Phone</label>
-            <input type='number' id='mobile' {...register('mobile', { required: 'Please enter your mobile', pattern : { value : /^0[3|5|7|8|9]\d{8}$/, message : 'Invalid phone number!'}})} className='p-2 w-full border-2 rounded-md'/>
-            <small className='text-red-500'>{errors?.mobile?.message}</small>
+            <label htmlFor='Address'>Address</label>
+            <input type='text' id='Address' {...register('address', { required : 'Please enter your Addess'})} className='p-2 w-full border-2 rounded-md'/>
+            <small className='text-red-500'>{errors?.address?.message}</small>
           </div>
           <div className='flex gap-3 items-center'>
             <div className='flex-1'>

@@ -15,6 +15,7 @@ const RightCart = ({dispatch, navigate}) => {
   const { currentUser } = useSelector(state => state.userReducer);
   const [isAlert, setIsAlert] = useState(false);
   const [totalMoney,setTotalMoney] = useState(0);
+  const { isShowRightCart } = useSelector(state => state.appReducer);
   const fetApiRemoveCart = async (_id) => {
     const result = await apiRemoveProductInCartUser(_id);
     console.log(result);
@@ -33,11 +34,12 @@ const RightCart = ({dispatch, navigate}) => {
     }
   }, [totalMoney, currentUser])
   console.log(currentUser);
+  console.log(isShowRightCart);
   return (
-    <div onClick={(e) => e.stopPropagation()} className='bg-black h-screen max-h-screen w-[400px] grid grid-rows-10 fixed text-white'>
+    <div onClick={(e) => e.stopPropagation()} className={`bg-black h-screen ${isShowRightCart === 2 ? 'animate-slide-left' : isShowRightCart === 3 ? "animate-slide-right" : "invisible"} max-h-screen w-[400px] grid grid-rows-10 fixed text-white`}>
       <header className='border-b border-[#343535] flex justify-between items-center row-span-1 px-[30px]'>
         <h2 className='uppercase text-xl font-semibold'>your cart</h2>
-        <IoMdClose size={25} className='cursor-pointer' onClick={() => dispatch(showRightCart({isShowModel : false}))}/>
+        <IoMdClose size={25} className='cursor-pointer' onClick={() => dispatch(showRightCart({isShowRightCart : 3}))}/>
       </header>
       <div className='row-span-9 flex flex-col justify-between'>
         <div className='row-span-6 overflow-auto px-[30px]'>
@@ -74,11 +76,11 @@ const RightCart = ({dispatch, navigate}) => {
           </div>
           <p className='text-center opacity-70 mb-[10px]'>Shipping, taxes, and discounts calculated at checkout.</p>
           <div className='w-full flex flex-col gap-[10px]'>
-            <button onClick={() => {navigate(`/${path.PAGE_CART_URL}`); dispatch(showRightCart({isShowRightCart : false})) }} className='uppercase bg-main py-[11px] px-[15px flex items-center justify-center gap-1 hover:bg-[#474747]'>
+            <button onClick={() => {navigate(`/${path.PAGE_CART_URL}`); dispatch(showRightCart({isShowRightCart : 3})) }} className='uppercase bg-main py-[11px] px-[15px flex items-center justify-center gap-1 hover:bg-[#474747]'>
               <p>Shopping cart</p>
               <FaArrowRightLong size={12}/>
             </button>
-            <button onClick={() => {navigate(`/${path.PAGE_CART_URL}`); dispatch(showRightCart({isShowRightCart : false})) }} className='uppercase bg-main py-[11px] px-[15px flex items-center justify-center gap-1 hover:bg-[#474747]'>
+            <button onClick={() => {navigate(`/${path.PAGE_CART_URL}`); dispatch(showRightCart({isShowRightCart : 3})) }} className='uppercase bg-main py-[11px] px-[15px flex items-center justify-center gap-1 hover:bg-[#474747]'>
               <p>Check Out</p>
               <FaArrowRightLong size={12}/>
             </button>

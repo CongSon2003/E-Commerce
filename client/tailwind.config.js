@@ -46,6 +46,26 @@ module.exports = {
             transform: "translateY(0px)",
           },
         },
+        "slide-left" : {
+          "0%" : {
+            "-webkit-transform": "translateX(400px)",
+            transform: "translateX(400px)"
+          },
+          "100%" : {
+            "-webkit-transform": "translateX(0px)",
+            transform: "translateX(0px)"
+          }
+        },
+        "slide-right" : {
+         "0%" : {
+            "-webkit-transform" : "translateX(0)",
+            transform: "translateX(0)"
+          },
+          "100%" : {
+            "-webkit-transform" : "translateX(400px)",
+            transform: "translateX(400px)"
+          }
+        },
         "slide-top-new-arrivals": {
           "0%": {
             "-webkit-transform": "translateY(30px)",
@@ -95,6 +115,8 @@ module.exports = {
         "slide-top": "slide-top 0.3s cubic-bezier(0.250, 0.460, 0.450, 0.940) both",
         "slide-top-new-arrivals" : "slide-top-new-arrivals 0.3s cubic-bezier(0.250, 0.460, 0.450, 0.940) both",
         "slide-out-bottom" : "slide-out-bottom 0.3s cubic-bezier(0.250, 0.460, 0.450, 0.940) both",
+        "slide-left" : "slide-left 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both",
+        "slide-right" : "slide-right 0.5s cubic-bezier(0.250, 0.460, 0.450, 0.940) both",
         "fade-out" : "fade-out 1s ease-out both",
         "fade-in" : "fade-in 1.5s cubic-bezier(0.390, 0.575, 0.565, 1.000) both"
       },

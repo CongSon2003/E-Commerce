@@ -7,7 +7,7 @@ const initialState = {
   isShowModel : false,
   dataModel : null,
   wishListLocal : [],
-  isShowRightCart : false
+  isShowRightCart : 1
 };
 export const appSlice = createSlice({
   name: "app",

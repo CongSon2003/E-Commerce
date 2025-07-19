@@ -2,7 +2,7 @@ import React, { memo, useEffect, useState } from "react";
 import { login, logout } from "../../store/user/userSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { Navigation } from "./";
-import { FaFacebook, FaRegUserCircle } from "react-icons/fa";
+import { FaFacebook } from "react-icons/fa";
 import { FaTwitter } from "react-icons/fa";
 import { BsGoogle } from "react-icons/bs";
 import { GrInstagram } from "react-icons/gr";
@@ -323,7 +323,7 @@ const Header = () => {
               </div>
               <div
                 onClick={() =>
-                  dispatch(showRightCart({ isShowRightCart: true }))
+                  dispatch(showRightCart({ isShowRightCart: 2 }))
                 }
                 className="flex cursor-pointer items-center gap-2 px-[20px] border-l h-full"
               >

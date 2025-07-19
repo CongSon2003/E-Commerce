@@ -27,7 +27,7 @@ import { toast } from 'react-toastify';
 const DetailProduct = ({dispatch, navigate}) => {
   // eslint-disable-next-line no-unused-vars
   const headRef = useRef();
-  const {productId, title, category} = useParams();
+  const {productId, category} = useParams();
   const [isupdate, setIsUpdate] = useState(false);
   const [product, setProduct] = useState(null);
   const [productsCategory, setProductsCategory] = useState(null);

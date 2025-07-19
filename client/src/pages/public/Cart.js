@@ -57,7 +57,7 @@ const Cart = ({dispatch}) => {
           {currentUser?.cart.map((item, index) => (
             <div key={index} className='py-[15px] px-[20px] border-x border-b items-center grid grid-cols-10'>
               <div className='flex items-center gap-5 col-span-6'>
-                <img src={item.thumb} alt='' className='w-48 h-48 object-contain'/>
+                <img src={item.thumb} alt='' className='w-44 h-44 object-contain'/>
                 <div>
                   <Link to={`/products/${item.product.category}/${item.product._id}/${item.product.slug}`}>{item.product.title}</Link>
                   <p className='text-[#505050] capitalize'>{item.color}</p>
@@ -91,11 +91,10 @@ const Cart = ({dispatch}) => {
                     className='absolute'
                   />
                 </button>
-                <button className='flex items-center gap-2 text-white bg-main py-[11px] px-[15px]'>
-                  <span>CHECK OUT</span>
+                <Link to={`/${path.CHECKOUT_URL}`} className='flex items-center gap-2 text-white bg-main py-[11px] px-[15px]'>
+                  <span>Check out</span>
                   <FaArrowRightLong/>
-                </button>
-                
+                </Link>
               </div>
             </div>
           </div>

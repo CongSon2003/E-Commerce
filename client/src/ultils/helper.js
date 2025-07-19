@@ -32,3 +32,27 @@ export const fileToBase64 = (file) => {
     reader.onerror = error => reject(error);
   });
 }
+export const USDollar = new Intl.NumberFormat('en-US', {
+  style: 'currency',
+  currency: 'USD',
+});
+export const VND = new Intl.NumberFormat('vi-VN', {
+  style: 'currency',
+  currency: 'VND',
+});
+/**
+ * Định dạnh số theo tiền tệ
+ * @param price - giá trị tiền
+ * @param symbol - ký tự đại diện cho đơn vị tiền
+ */
+export const formatCurrency = (price, symbol = "$") => {
+  var DecimalSeparator = Number('1.2').toLocaleString().substr(1, 1);
+
+  var priceWithCommas = price.toLocaleString();
+  var arParts = String(priceWithCommas).split(DecimalSeparator);
+  var intPart = arParts[0];
+  var decPart = arParts.length > 1 ? arParts[1] : '';
+  decPart = (decPart + '00').substr(0, 2);
+
+  return symbol + intPart + DecimalSeparator + decPart;
+}
