@@ -1,7 +1,5 @@
 import React, { memo } from 'react'
 import { FaAngleRight } from "react-icons/fa";
-import { Link } from 'react-router-dom';
-import { lowercaseLetters } from 'ultils/helper';
 const ItemHotCollection = ({data, index}) => {
   return (
     <div className={`w-1/3 px-[10px] ${index <= 2 ? 'mb-5' : ''}`}>
@@ -14,9 +12,9 @@ const ItemHotCollection = ({data, index}) => {
           <ul>
             { data?.brand?.map((el, index) => {
             return (
-              <li key={index} className='flex flex-initial items-center hover:text-main cursor-pointer gap-1 mb-[5px] text-[#808080] text-sm'>
+              <li key={index} className='flex flex-initial items-center hover:text-main cursor-pointer gap-1 text-[#808080]'>
                 <FaAngleRight/>
-                <Link to={`/products/${lowercaseLetters(data.title)}/${lowercaseLetters(el)}`}>{el}</Link>
+                <span>{el}</span>
               </li>
             )
           })}

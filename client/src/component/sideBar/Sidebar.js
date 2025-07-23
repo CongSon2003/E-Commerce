@@ -14,7 +14,7 @@ const Sidebar = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [app]);
   return (
-    <div className="w-full flex flex-col gap-5 border font-[Poppins] text-sm">
+    <div className="w-full flex flex-col gap-5 border">
       <div className="flex flex-col w-full">
         <div className="flex items-center gap-3 py-[10px] px-[20px] font-semibold bg-main text-white">
           <span>
@@ -23,10 +23,10 @@ const Sidebar = () => {
           <span>ALL COLLECTIONS</span>
         </div>
         <div>
-          <ul className="flex flex-col gap-3">
+          <ul className="flex flex-col">
             {productCategories &&
               productCategories.map((category) => (
-                <li key={category.id} className="px-[20px] py-[15px]">
+                <li key={category.id} className="px-[20px] pt-[15px] pb-[14px]">
                   <NavLink
                     key={category._id}
                     to={`/products/${category?.title}`.toLowerCase()}

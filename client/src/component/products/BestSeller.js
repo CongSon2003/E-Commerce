@@ -2,7 +2,6 @@ import React, { memo, useEffect, useState } from "react";
 import { apigetProducts } from "../../apis";
 import { ItemProduct } from "./";
 import Slider from "react-slick";
-import 'animate.css';
 const Navtabs = [
   { id: 1, name: "best seller" },
   { id: 2, name: "new Arrivals" },
@@ -21,8 +20,6 @@ const Bestsellers = () => {
   const [newArrials, setNewArrials] = useState([]);
   const [products, setProducts] = useState([]);
   const [activeTab, setActiveTab] = useState(1);
-  const [isHoverBarBoxLeft, setIsHoverBarBoxLeft] = useState(1);
-  const [isHoverBarBoxRight, setIsHoverBarBoxRight] = useState(1);
   const fetchProducts = async () => {
     const [bestSellers, newArrials] = await Promise.all([
       apigetProducts({ sort: "-sold" }),
@@ -54,7 +51,7 @@ const Bestsellers = () => {
       <div className="pb-[15px] border-b-2 border-solid border-[#ee3131] text-[20px] flex">
         {Navtabs.map((tab) => {
           return (
-            <div key={tab.id} className={`font-semibold uppercase font-[Poppins]`}>
+            <div key={tab.id} className={`font-semibold uppercase`}>
               <span
                 onClick={() => setActiveTab(tab.id)}
                 className={`cursor-pointer ${
@@ -83,23 +80,19 @@ const Bestsellers = () => {
         </Slider>
       </div>
       <div className="flex justify-between gap-5">
-        <div onMouseMove={() => setIsHoverBarBoxLeft(2)} onMouseLeave={() => setIsHoverBarBoxLeft(3)} className="flex-1 w-full h-[140px] relative barbox">
+        <div className="flex-1 w-full h-[140px]">
           <img
             className="w-full h-full object-cover cursor-pointer"
             src="https://digital-world-2.myshopify.com/cdn/shop/files/banner2-home2_2000x_crop_center.png?v=1613166657"
             alt=""
           />
-          {<div className={`absolute inset-0 bg-[#0000001a] cursor-pointer ${isHoverBarBoxLeft === 2 ? 'animate_zoomInTopLeft' : isHoverBarBoxLeft === 3 ? 'animate_zoomOutLeft' : 'invisible'}`}></div>}
-          {<div className={`absolute inset-0 bg-[#0000001a] cursor-pointer ${isHoverBarBoxLeft === 2 ? 'animate_zoomInBottomRight' : isHoverBarBoxLeft === 3 ? 'animate_zoomOutRight' : 'invisible'}`}></div>}
         </div>
-        <div onMouseMove={() => setIsHoverBarBoxRight(2)} onMouseLeave={() => setIsHoverBarBoxRight(3)} className="flex-1 w-full h-[140px] relative">
+        <div className="flex-1 w-full h-[140px]">
           <img
             className="w-full h-full object-cover cursor-pointer"
             src="https://digital-world-2.myshopify.com/cdn/shop/files/banner1-home2_2000x_crop_center.png?v=1613166657"
             alt=""
           />
-          {<div className={`absolute inset-0 bg-[#0000001a] cursor-pointer ${isHoverBarBoxRight === 2 ? 'animate_zoomInTopLeft' : isHoverBarBoxRight === 3 ? 'animate_zoomOutLeft' : 'invisible'}`}></div>}
-          {<div className={`absolute inset-0 bg-[#0000001a] cursor-pointer ${isHoverBarBoxRight === 2 ? 'animate_zoomInBottomRight' : isHoverBarBoxRight === 3 ? 'animate_zoomOutRight' : 'invisible'}`}></div>}
         </div>
       </div>
     </div>

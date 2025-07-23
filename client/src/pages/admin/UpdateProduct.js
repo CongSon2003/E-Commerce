@@ -41,6 +41,7 @@ const CreatedProduct = () => {
     if (data?.thumb?.length > 0 || data?.images?.length > 0) { 
       if (data.thumb && !data.images) {
         finalData = {...data, ...textDescription, images : [...previewImage.images]}
+        console.log(finalData);
       }
       if (data.images && !data.thumb) {
         finalData = {...data, ...textDescription, thumb : [previewImage.thumb]}
@@ -70,10 +71,12 @@ const CreatedProduct = () => {
       formData.delete('color')
       formData.append('color', finalData.color.toUpperCase())
     }
+    console.log(finalData);
     if (finalData?.images && finalData?.images?.length > 0) {
       formData.delete('images')
       for (let image of finalData.images) {
         formData.append('images', image);
+        console.log(image);
       }
     }
     const result = await apiUpdateProduct(productId,formData);
@@ -99,6 +102,7 @@ const CreatedProduct = () => {
   useEffect(() => {
     const fetchApiGetProduct = async (productId) => {
       const result = await apigetOneProduct(productId);
+      console.log(result);
       if (result.success) {
         setCurrentProduct(result.response);
       }
@@ -125,6 +129,7 @@ const CreatedProduct = () => {
       })
       setTextDescription(prev => ({...prev, description : typeof currentProduct.description === 'object' ? currentProduct.description?.join(', ') : currentProduct?.description}))
     }
+    console.log(currentProduct);
   },[currentProduct])
   const handlePriviewThumb = async (file) => {
     if (!file) {
@@ -149,6 +154,7 @@ const CreatedProduct = () => {
   const handleOnCancelUpdateProduct = () => {
     navigation(`/admin/${path.MANAGER_PRODUCTS_URL}`)
   }
+  console.log(currentProduct)
   return (
     <div className='p-4 relative w-full h-full flex flex-col'>
       <header className='w-full border-b p-2 mb-6 flex items-center gap-2 justify-between'>
