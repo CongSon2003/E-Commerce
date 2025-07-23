@@ -156,20 +156,15 @@ const getProducts = asyncHandler(async (req, res) => {
     delete query.category
   }
   if (query.category) query.category = { $regex: query.category, $options: "i" }
-  if (query.brand) {
-    console.log(query.brand);
-    query.brand = { $regex: query.brand, $options: "i" }
-  }
-  console.log(query.brand);
   if (query.color) {
     delete query.color;
     const arrayColor = queryObj.color.split(',');
     const objectColor = arrayColor.map(el => ({color : {$regex : el, $options : 'i'}}));
     colorQueryObject = { $or : objectColor };
   }
-  console.log("query" , query);
   const queryEnd = {...query, ...colorQueryObject}
   let products = {}
+  // console.log("QUERY eND", queryEnd);
   // Nếu query rỗng thì mặt định nấy tất cả dữ liệu trong db
   products = Product.find(queryEnd);
   // console.log(products.exec());
@@ -202,7 +197,6 @@ const getProducts = asyncHandler(async (req, res) => {
   //EXECUTE QUERY
   // Sử dụng exec() để thực hiện truy vấn
   // console.log(productsFinal);
-  console.log('queryEnd : ', queryEnd);
   products
     .exec()
     .then(async (data) => {

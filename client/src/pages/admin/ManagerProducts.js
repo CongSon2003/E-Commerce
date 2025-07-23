@@ -27,9 +27,11 @@ const ManagerProducts = () => {
   const { handleSubmit, register, resetField } = useForm();
   useEffect(() => {
     const queryArray = [];
+    console.log(searchParams.entries());
     for (let i of searchParams.entries()) {
       queryArray.push(i);
     }
+    console.log(queryArray);
     const queries = {}; // ?page=2&title=abc => [['page', '2'], ['title', 'abc']] => { page : 2 }
     for(let x of queryArray) {
       queries[x[0]] = x[1] 
@@ -37,9 +39,11 @@ const ManagerProducts = () => {
     if (queries.page) { 
       setCurrentPage(+queries.page - 1)
     }
+    console.log(queries);
     const fetchApiGetAllProducts = async (queries) => {
       try {
         const result = await apigetProducts(queries);
+        console.log(result);
         if (result.success) {
           setProducts(result.response);
           setNumberSearches(result.NumberSearches);

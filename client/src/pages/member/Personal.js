@@ -18,10 +18,12 @@ const Personal = () => {
   const dispatch = useDispatch();
   const OnSubmit = async (data) => {
     const { role, createdAt, status, ...finalData} = data;
+    console.log(finalData);
     const formData = new FormData();
     for (const element of Object.entries(finalData)) {
       formData.append(element[0], element[1]);
     }
+    console.log(formData.getAll('firstname'));
     if (finalData.avatar) {
       formData.delete('avatar');
       formData.append('avatar', typeof finalData.avatar === 'object' ? finalData.avatar[0] : finalData.avatar);
@@ -29,15 +31,18 @@ const Personal = () => {
     setIsLoading(true);
     const result = await apiUpdateUser(formData);
     setIsLoading(false);
+    console.log(result);
     if (result.success) {
       toast.success('Updated successfully!')
       dispatch(getCurrentUser());
     }
   }
   const handlePriviewAvatar = async (file) => {
+    console.log(file);
     const base64Avatar = await fileToBase64(file);
     setPreviewAvatar(base64Avatar)
   }
+  console.log(previewAvatar);
   useEffect(() => {
     if (currentUser) {
       reset({

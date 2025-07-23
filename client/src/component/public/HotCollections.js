@@ -15,7 +15,7 @@ const HotCollections = () => {
     };
   }, [app.categories])
   return (
-    <div className='flex flex-col w-full gap-5 font-[Poppins]'>
+    <div className='flex flex-col w-full gap-5'>
       <header className='border-b-2 border-solid border-[#ee3131] text-[20px]'>
         <h2 className='uppercase pb-[15px] font-semibold'>Hot Collections</h2>
       </header>

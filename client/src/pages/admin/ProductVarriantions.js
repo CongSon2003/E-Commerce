@@ -24,6 +24,7 @@ const ProductVarriantions = () => {
     const fetchApiGetOneProduct = async (productId) => {
       const result = await apigetOneProduct(productId);
       if (result.success) { 
+        console.log(result);
         setCurrentProduct(result.response);
       }
     }

@@ -1,3 +1,4 @@
+
 // Import Swiper React components
 import { Swiper, SwiperSlide } from "swiper/react";
 
@@ -44,4 +45,3 @@ export default function App() {
       </Swiper>
     </>
   );
-}

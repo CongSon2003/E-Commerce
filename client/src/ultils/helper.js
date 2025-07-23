@@ -2,18 +2,11 @@ import { IoIosStarOutline } from "react-icons/io";
 import { IoMdStar } from "react-icons/io";
 export const fomantMoney = number => Number(number?.toFixed(1)).toLocaleString()
 export const capitalizeFirstLetter = (string) => {
-  return string.split(' ').map(word => {
-      // Kiểm tra xem từ có phải là chữ cái hay không
-      if (word.length === 0) return word; // Nếu từ rỗng, trả về từ rỗng
-      return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
-  }).join(' ');
-}
-export const lowercaseLetters = (string) => {
-  return string.split(' ').map(word => {
-      // Kiểm tra xem từ có phải là chữ cái hay không
-      if (word.length === 0) return word; // Nếu từ rỗng, trả về từ rỗng
-      return word.toLowerCase();
-  }).join(' ');
+    return string.split(' ').map(word => {
+        // Kiểm tra xem từ có phải là chữ cái hay không
+        if (word.length === 0) return word; // Nếu từ rỗng, trả về từ rỗng
+        return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+    }).join(' ');
 }
 export const renderStarProduct = (numberStar, size) => {
   const stars = [];
