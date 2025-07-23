@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import Path from "./ultils/path";
 import { Route, Routes } from "react-router-dom";
-import { Cart, Home, Login, Open } from "./pages/public";
+import { AboutUs, Brand, Cart, Faq, Heading, Home, Login, Open, Services, Typography } from "./pages/public";
 import { getProductCategories } from "./store/app/asyncAppAction";
 import { getNewProducts } from "./store/products/asyncProductsAction";
 import { useDispatch, useSelector } from "react-redux";
@@ -20,6 +20,7 @@ import { AdminLayout, Dashboard, ManagerOrder, ManagerProduct,  CreatedProducts,
 import { Checkout, MyCart, Personal, PurchaseHistory, UserLayout, MyWishList } from './pages/member'
 import { RightCart, WishList } from './component/pages'
 import { showRightCart } from "store/app/appSlice";
+
 function App() {
   const dispatch = useDispatch();
   const { isShowModel, dataModel, isShowRightCart } = useSelector(state => state.appReducer);
@@ -28,18 +29,18 @@ function App() {
     dispatch(getProductCategories());
     dispatch(getNewProducts());
   }, [dispatch]);
-  console.log(isShowRightCart);
+
   return (
     <div className="relative">
       {
         <>
-          <div onClick={() => dispatch(showRightCart({isShowRightCart : 3}))} className={`absolute inset-0 bg-[#0000004D] z-40 ${isShowRightCart === 3 && 'invisible'}`}></div>
+          <div onClick={() => dispatch(showRightCart({isShowRightCart : 3}))} className={`absolute inset-0 bg-[#0000004D] z-40 ${(isShowRightCart === 3 || isShowRightCart === 1) && 'hidden'}`}></div>
           <div className="absolute right-[400px] top-0 bottom-0 z-50">
             <RightCart/>
           </div>
         </>
       }
-      {isShowModel && <Modal children={dataModel}></Modal>}
+      {isShowModel !== 1 && <Modal children={dataModel}></Modal>}
       <Routes>
         <Route path={Path.CHECKOUT_URL} element = {<Checkout/>}/>
         <Route path={Path.PUBLIC_URL} element={<Open />}>
@@ -52,11 +53,17 @@ function App() {
             path={Path.DETAIL_PRODUCT__CATEGORY__PID__TITLE}
             element={<DetailProduct />}
           />
+          <Route path = {Path.PAGE_ABOUT_US_URL} element={<AboutUs/>}/>
+          <Route path = {Path.PAGE_FAQ_URL} element={<Faq/>}/>
+          <Route path = {Path.PAGE_HEADING_URL} element={<Heading/>}/>
+          <Route path = {Path.PAGE_SERVICES_URL} element={<Services/>}/>
+          <Route path = {Path.PAGE_TYPOGRAPHY_URL} element={<Typography/>}/>
           <Route path = {Path.PAGE_WISHLIST_URL} element={<WishList/>}/>
           <Route element={<AccountRegister />} path={Path.ACCOUNT_REGISTER} />
           <Route path={Path.RESET_PASSWORD} element={<ResetPassword />} />
           <Route path="*" element={<NotFound />} />
           <Route path={Path.PAGE_CART_URL} element={<Cart/>} />
+          <Route path={Path.CATEGORY_BRAND_URL} element={<Brand/>}/>
         </Route>
         <Route path= {Path.ADMIN_URL} element = {<AdminLayout/>}>
           <Route path={Path.DASHBOARD_URL} element= {<Dashboard/>}/>

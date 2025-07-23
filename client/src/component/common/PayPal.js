@@ -39,11 +39,7 @@ const ButtonWrapper = ({currency, showSpinner, amount, isShowCardOrPayPal, paylo
                     }],
                 })}
                 onApprove={(data, actions) => actions.order.capture().then(async (details) => {
-                    console.log(details);
-                    console.log("data", data);
-                    console.log("payload", payload);
                     if (details.status === 'COMPLETED') {
-                        console.log("Successfully");
                         payload.isPayment = true;
                         const result = await apiCreateOrder(payload);
                         if (result.success) { 

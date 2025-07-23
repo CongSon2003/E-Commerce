@@ -18,7 +18,6 @@ const RightCart = ({dispatch, navigate}) => {
   const { isShowRightCart } = useSelector(state => state.appReducer);
   const fetApiRemoveCart = async (_id) => {
     const result = await apiRemoveProductInCartUser(_id);
-    console.log(result);
     if (result.success) {
       dispatch(getCurrentUser());
     }
@@ -33,8 +32,6 @@ const RightCart = ({dispatch, navigate}) => {
       setTotalMoney(fomantMoney(currentUser?.cart.reduce((sum, item) => sum += item.priceChanged, 0)))
     }
   }, [totalMoney, currentUser])
-  console.log(currentUser);
-  console.log(isShowRightCart);
   return (
     <div onClick={(e) => e.stopPropagation()} className={`bg-black h-screen ${isShowRightCart === 2 ? 'animate-slide-left' : isShowRightCart === 3 ? "animate-slide-right" : "invisible"} max-h-screen w-[400px] grid grid-rows-10 fixed text-white`}>
       <header className='border-b border-[#343535] flex justify-between items-center row-span-1 px-[30px]'>

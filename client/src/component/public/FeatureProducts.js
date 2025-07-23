@@ -11,7 +11,7 @@ const FeatureProducts = () => {
     fetchProducts()
   }, []);
   return (
-    <div className='flex flex-col w-full gap-5'>
+    <div className='flex flex-col w-full gap-5 font-[Poppins]'>
       <header className='border-b-2 border-solid border-[#ee3131] text-[20px]'>
         <h2 className='uppercase pb-[15px] font-semibold'>Featured Products</h2>
       </header>

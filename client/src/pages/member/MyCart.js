@@ -29,14 +29,12 @@ const MyCart = ({dispatch}) => {
   };
   const handleUpdateCart = async () => {
     setLoading(true);
-    console.log(currentCart);
     const result = await apiUpdateCartUser({currentCart, isUpdateCart : true})
     if (result.success) { 
       dispatch(getCurrentUser());
       toast.success('Update cart user successfully')
     }
     setLoading(false)
-    console.log(result);
   }
   const override = {
     display: "block",

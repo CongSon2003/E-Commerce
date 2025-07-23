@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { memo, useEffect, useState } from 'react'
 import { IoChevronDownOutline } from "react-icons/io5";
 import { colors } from '../../ultils/contant'
@@ -14,7 +15,7 @@ const ItemFilter = ({name, active, setActive, type = 'checkbox'}) => {
     to : ''
   })
   const navigation = useNavigate();
-  const { category } = useParams();
+  const { category, brand } = useParams();
   const handleSelected = (e) => {
     const { value, checked } = e.target;
     if (checked) {
@@ -63,12 +64,19 @@ const ItemFilter = ({name, active, setActive, type = 'checkbox'}) => {
     } else {
       delete queries.color
     }
-    console.log(queries);
     if (active === name) {
-      navigation({
-        pathname : `/products/${category}`,
-        search : createSearchParams(queries).toString()
-      })
+      
+      if (!brand) {
+        navigation({
+          pathname : `/products/${category}`,
+          search : createSearchParams(queries).toString()
+        })
+      } else {
+        navigation({
+          pathname : `/products/${category}/${brand}`,
+          search : createSearchParams(queries).toString()
+        })
+      }
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   },[selected])
@@ -104,30 +112,49 @@ const ItemFilter = ({name, active, setActive, type = 'checkbox'}) => {
       delete queries.to;
     }
     if (queries.to || queries.from) { 
-      navigation({
-        pathname : `/products/${category}`,
-        search : createSearchParams(queries).toString()
-      })
+      if (!brand) {
+        navigation({
+          pathname : `/products/${category}`,
+          search : createSearchParams(queries).toString()
+        })
+      } else {
+        navigation({
+          pathname : `/products/${category}/${brand}`,
+          search : createSearchParams(queries).toString()
+        })
+      }
     }
     console.log(queries);
     if (Object.keys(queries).length > 0) {
-      navigation({
-        pathname : `/products/${category}`,
-        search : createSearchParams(queries).toString()
-      })
+      if (!brand) {
+        navigation({
+          pathname : `/products/${category}`,
+          search : createSearchParams(queries).toString()
+        })
+      } else {
+        navigation({
+          pathname : `/products/${category}/${brand}`,
+          search : createSearchParams(queries).toString()
+        })
+      }
     }
     if (isResetPrice) { 
       setIsResetPrice(prev => !prev);
       delete queries.from
       delete queries.to
-      navigation({
-        pathname : `/products/${category}`,
-        search : createSearchParams(queries).toString()
-      })
+      if (!brand) {
+        navigation({
+          pathname : `/products/${category}`,
+          search : createSearchParams(queries).toString()
+        })
+      } else {
+        navigation({
+          pathname : `/products/${category}/${brand}`,
+          search : createSearchParams(queries).toString()
+        })
+      }
     }
-  },[category, isResetPrice, navigation, price.from, price.to, searchParams])
-  console.log(active);
-  console.log(name);
+  },[category, isResetPrice, price.from, price.to, searchParams, brand])
   return (
     <div onClick={() => setActive(name)} className={`relative flex text-sm items-center p-3 ${active === name ? 'border-[red]' : 'border-gray-600'} border border-solid  hover:shadow-md cursor-pointer`}>
       <span className='mr-7 capitalize'>{name}</span>

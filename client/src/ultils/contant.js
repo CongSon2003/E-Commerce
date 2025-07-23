@@ -47,11 +47,6 @@ export const navigation = [
   },
   {
     id: 4,
-    value: "FAQ",
-    path: `/${path.FAQ_URL}`,
-  },
-  {
-    id: 5,
     value: "BLOGS",
     path: `/${path.BLOGS_URL}`,
   },

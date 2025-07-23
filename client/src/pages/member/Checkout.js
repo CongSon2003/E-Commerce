@@ -38,7 +38,6 @@ const Checkout = ({dispatch, navigate}) => {
       setIsShowCardOrPayPal(true)
     }
   },[watch('address')])
-  console.log(watch('address'));
   useEffect(() => {
     if (currentUser) {
       reset({
@@ -52,7 +51,6 @@ const Checkout = ({dispatch, navigate}) => {
       setSubtotal(0);
       setTotal(0);
       setIsShowCardOrPayPal(true);
-      console.log('a');
       Swal.fire({
         icon : 'success',
         title : 'Congrat!',
@@ -64,10 +62,6 @@ const Checkout = ({dispatch, navigate}) => {
       })
     }
   }, [isSuccessPayOrder])
-  console.log(currency(total).multiply(exchangeRate).value);
-  console.log(total);
-  console.log(subtotal);
-  
   return (
     <div className='w-full flex flex-col justify-center overflow-x-hidden'>
       {isSuccessPayOrder && <Confetti />}

@@ -43,7 +43,6 @@ export const apiResetPassword = (data) => {
 } // updateUser
 export const apiUpdateUser = (data) => {
   try {
-    console.log(data);
     return axios({
       url : '/user/updateUser',
       method : 'PUT',
@@ -55,7 +54,6 @@ export const apiUpdateUser = (data) => {
 }
 export const apiGetUsers = (params) => {
   try {
-    console.log(params);
     return axios({
       url : '/user/getUsers',
       method : 'GET',
