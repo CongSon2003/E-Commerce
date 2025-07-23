@@ -9,11 +9,14 @@ import { TiDeleteOutline, TiTick } from "react-icons/ti";
 import { showModal } from 'store/app/appSlice';
 import withBase from 'HOCS/withBase';
 import clsx from 'clsx';
+import 'animate.css';
+import { useSelector } from 'react-redux';
 const QuickProductDetails = ({Product, dispatch}) => {
   const [selectImg, setSelectImg] = useState("");
   const [quantity, setQuantity] = useState(1);
   const [varriant, setVarriant] = useState(null);
   const [currentProduct, setCurrentProduct] = useState("");
+  const { isShowModel } = useSelector(state => state.appReducer);
   var settings_Detail = {
     dots: false, // Hiện điểm chỉ báo
     infinite: true, // Cho phép lặp lại
@@ -30,7 +33,6 @@ const QuickProductDetails = ({Product, dispatch}) => {
         images : Product.varriants.find(item => item.sku === varriant)?.images,
       }))
       setSelectImg(Product.varriants.find(item => item.sku === varriant)?.thumb)
-      console.log(Product.varriants.find(item => item.sku === varriant)?.thumb);
     } else {
       if (Product) {
         setSelectImg(Product?.thumb)
@@ -45,10 +47,9 @@ const QuickProductDetails = ({Product, dispatch}) => {
   const handleQuantity = useCallback((value) => {
     setQuantity(value)
   },[]);
-  console.log(currentProduct);
-  console.log(varriant);
+  console.log(isShowModel);
   return (
-    <div onClick={(e) => e.stopPropagation()} className='bg-white w-1/2 h-fit relative'>
+    <div onClick={(e) => e.stopPropagation()} className={`bg-white w-1/2 h-fit relative animate__fadeIn animate__animated`}>
       <div className='flex p-[20px]'>
         <div className='flex-1 flex flex-col gap-2'>
           <img src={selectImg} alt='QuickThumb' className='w-[360px] max-h-[360px] object-contain'/>
@@ -103,7 +104,7 @@ const QuickProductDetails = ({Product, dispatch}) => {
           <button type='button' className='py-[11px] px-[15px] bg-main text-white hover:bg-[#474747]'>ADD TO CART</button>
         </div>
       </div>
-      <TiDeleteOutline className='absolute right-1 top-1 cursor-pointer' onClick={() => dispatch(showModal({isShowModel : false, dataModel : null}))} size={25}/>
+      <TiDeleteOutline className='absolute right-1 top-1 cursor-pointer' onClick={() => dispatch(showModal({isShowModel : 3, dataModel : null}))} size={25}/>
     </div>
   )
 }

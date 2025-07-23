@@ -4,7 +4,7 @@ const initialState = {
   categories: [],
   isSuccess: false,
   message: "",
-  isShowModel : false,
+  isShowModel : 1,
   dataModel : null,
   wishListLocal : [],
   isShowRightCart : 1

@@ -37,7 +37,7 @@ const DetailProduct = ({dispatch, navigate}) => {
     images : [],
     price : '',
   }) 
-  const { isLoggedIn, currentUser, currentCart } = useSelector(state => state.userReducer);
+  const { isLoggedIn, currentUser } = useSelector(state => state.userReducer);
   const [varriant, setVarriant] = useState(null);
   const [getQuantity, setGetQuantity] = useState(1);
   var settings = {
@@ -45,7 +45,6 @@ const DetailProduct = ({dispatch, navigate}) => {
     infinite: true,
     slidesToShow: 4,
   };
-  console.log(currentCart);
   var settings_Detail = {
     dots: false,
     infinite: true,
@@ -128,7 +127,6 @@ const DetailProduct = ({dispatch, navigate}) => {
       toast.error('Add to cart failed')
     }
   }
-  console.log(getQuantity);
   return (
     <div ref={headRef} className='w-full flex flex-col gap-5'>
       <Breadcrumb title={product?.title} category={product?.category}/> 
@@ -174,7 +172,7 @@ const DetailProduct = ({dispatch, navigate}) => {
                     </div>
                     <span className='text-main text-sm'>{`(Sold: ${product?.sold})`}</span>
                   </div>
-                  <ul>
+                  <ul className='font-[Poppins]'>
                     {product?.description?.length > 1 && product?.description.map((item, index) => (
                       <li className='flex items-center gap-2 text-[#505050] leading-6' key={index}>
                         <FaSquare size={5}/>
@@ -190,7 +188,7 @@ const DetailProduct = ({dispatch, navigate}) => {
                         <div onClick={() => setVarriant(null)} className={clsx(`relative flex items-center border p-2 cursor-pointer hover:border-red-500 gap-2 hover:text-red-500`, varriant === null && 'border-red-500 text-red-500')}>
                           <img src={product?.thumb} alt='' className='w-10 h-10 object-contain'/>
                           <span className='flex flex-col'>
-                            <span className='uppercase'>{product?.color}</span>
+                            <span className='uppercase text-sm font-[Poppins]'>{product?.color}</span>
                           </span>
                           {varriant === null && <div className='absolute triangle-bottomright bottom-0 right-0'><TiTick className='absolute right-[-3px] top-[5px]' color='white'/></div>}
                         </div>
@@ -199,7 +197,7 @@ const DetailProduct = ({dispatch, navigate}) => {
                             <div key={item.sku} onClick={() => setVarriant(item.sku)} className={clsx(`relative flex items-center border p-2 cursor-pointer hover:border-red-500 gap-2 hover:text-red-500`, varriant === item?.sku && 'border-red-500 text-red-500')}>
                               <img src={item?.thumb} alt='' className='w-10 h-10 object-contain'/>
                               <span className='flex flex-col'>
-                                <span>{item?.color}</span>
+                                <span className='text-sm font-[Poppins]'>{item?.color}</span>
                             </span>
                               {item?.sku === varriant && <div className='absolute triangle-bottomright bottom-0 right-0'><TiTick className='absolute right-[-3px] top-[5px]' color='white'/></div>}
                             </div>
@@ -237,7 +235,7 @@ const DetailProduct = ({dispatch, navigate}) => {
                       </div>
                       <div className='flex flex-col'>
                         <span className='capitalize text-[#505050]'>{capitalizeFirstLetter('guarantee')}</span>
-                        <span className='text-[#999]'>Quality checked</span>
+                        <span className='text-[#999] text-sm'>Quality checked</span>
                       </div>
                     </li>
                     <li className='border p-[10px] flex gap-2 items-center'>
@@ -246,7 +244,7 @@ const DetailProduct = ({dispatch, navigate}) => {
                       </div>
                       <div className='flex flex-col'>
                         <span className='capitalize text-[#505050]'>{capitalizeFirstLetter('Free Shipping')}</span>
-                        <span className='text-[#999]'>Free on all products</span>
+                        <span className='text-[#999] text-sm'>Free on all products</span>
                       </div>
                     </li>
                     <li className='border p-[10px] flex gap-2 items-center'>
@@ -255,7 +253,7 @@ const DetailProduct = ({dispatch, navigate}) => {
                       </div>
                       <div className='flex flex-col'>
                         <span className='capitalize text-[#505050]'>{capitalizeFirstLetter('Special gift cards')}</span>
-                        <span className='text-[#999]'>Special gift cards</span>
+                        <span className='text-[#999] text-sm'>Special gift cards</span>
                       </div>
                     </li>
                     <li className='border p-[10px] flex gap-2 items-center'>
@@ -264,7 +262,7 @@ const DetailProduct = ({dispatch, navigate}) => {
                       </div>
                       <div className='flex flex-col'>
                         <span className='capitalize text-[#505050]'>{capitalizeFirstLetter('Free return')}</span>
-                        <span className='text-[#999]'>Within 7 days</span>
+                        <span className='text-[#999] text-sm'>Within 7 days</span>
                       </div>
                     </li>
                     <li className='border p-[10px] flex gap-2 items-center'>
@@ -273,7 +271,7 @@ const DetailProduct = ({dispatch, navigate}) => {
                       </div>
                       <div className='flex flex-col'>
                         <span className='capitalize text-[#505050]'>{capitalizeFirstLetter('Consultancy')}</span>
-                        <span className='text-[#999]'>Lifetime 24/7/356</span>
+                        <span className='text-[#999] text-sm'>Lifetime 24/7/356</span>
                       </div>
                     </li>
                   </ul>

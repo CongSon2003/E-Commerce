@@ -12,7 +12,7 @@ var settings = {
 const NewArrivals = () => {
   const { NewProducts } = useSelector(state => state.productsReducer);
   return (
-    <div className='flex flex-col w-full gap-[10px]'>
+    <div className='flex flex-col w-full gap-[10px] font-[Poppins]'>
       <header className='border-b-2 border-solid border-[#ee3131] text-[20px]'>
         <h2 className='uppercase pb-[15px] font-semibold'>New Arrivals</h2>
       </header>

@@ -5,7 +5,6 @@ const useDebounce = (value, timeDelate) => {
   
   useEffect(() => {
     const settime = setTimeout(() => {
-      console.log("SS");
       setDebounce(value);
     }, timeDelate)
     return () => {

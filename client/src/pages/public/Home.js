@@ -8,7 +8,7 @@ import { DailyDeals, NewArrivals, HotCollections, FeatureProducts } from '../../
 import { Sidebar } from '../../component/sideBar'
 const Home = () => {
   return (
-    <div className="flex flex-col gap-5 justify-center w-full items-center">
+    <div className="flex flex-col gap-5 justify-center w-full items-center font-[Poppins]">
       <div className="flex flex-col justify-center w-main gap-5">
         <div className="flex gap-5">
           <div className="flex flex-col gap-5 w-[28%]">

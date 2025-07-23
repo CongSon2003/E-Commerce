@@ -10,23 +10,21 @@ import { IoLogoPinterest } from "react-icons/io";
 import { Link } from "react-router-dom";
 import { FaCcVisa } from "react-icons/fa6";
 import { FaCcPaypal } from "react-icons/fa6";
-import { FaCcDinersClub } from "react-icons/fa";
-import { FaCcDiscover } from "react-icons/fa";
 const Footer = () => {
   return (
-    <div className="w-full flex flex-col justify-center items-center">
+    <div className="w-full flex flex-col justify-center items-center font-[Poppins]">
       <div className="w-full bg-main flex flex-col items-center py-[25px]">
         <div className="w-main flex items-center justify-between">
           <div className="text-white flex flex-col flex-1">
             <div className="font-normal text-xl uppercase">
               Sign up to Newsletter
             </div>
-            <div className="opacity-60 tex">
+            <div className="opacity-60 text-sm">
               Subscribe now and receive weekly newsletter
             </div>
           </div>
           <div className="flex-1 flex items-center text-white">
-            <input id="input_email" className="h-[50px] px-5 w-full rounded-l-full placeholder:text-gray-300 outline-none bg-[#ffffff1a]" type="text" placeholder="Email address"/>
+            <input id="input_email" className="h-[50px] px-5 w-full rounded-l-full placeholder:text-gray-300 placeholder:text-sm outline-none bg-[#ffffff1a]" type="text" placeholder="Email address"/>
             <div className="bg-[#ffffff1a] h-[50px] pr-5 flex items-center rounded-r-full"><MdEmail size={18}/></div>
           </div>
         </div>
@@ -140,12 +138,6 @@ const Footer = () => {
               </li>
               <li>
                 <FaCcPaypal size={40}/>
-              </li>
-              <li>
-                <FaCcDinersClub size={40}/>
-              </li>
-              <li>
-                <FaCcDiscover size={40}/>
               </li>
             </ul>
           </div>

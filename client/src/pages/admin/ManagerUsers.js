@@ -43,7 +43,6 @@ const ManagerUsers = () => {
   };
   const handleSubmitEditUser = async (data) => {
     
-    console.log("data", data);
     const result = await apiUpdateUserAdmin(data, dataEditUser?._id);
     if (result?.success) {
       setIsEdit(false);
@@ -66,8 +65,6 @@ const ManagerUsers = () => {
     setDataEditUser(null);
     setIsBlocked(false);
   }
-  console.log(isBlocked);
-  console.log("dataEditUser", dataEditUser);
   useEffect(() => {
     if (dataEditUser) {
       setIsBlocked(dataEditUser?.isBlocked);
@@ -80,7 +77,8 @@ const ManagerUsers = () => {
     isBlocked : dataEditUser?.isBlocked || false,
     role : dataEditUser?.role || '1975',  
   })
-  }, [dataEditUser, reset])
+  }, [dataEditUser, reset]);
+  console.log(isBlocked);
   return (
     <div className='p-4 relative w-full h-screen flex flex-col'>
       <header className='w-full border-b p-2 mb-6'>

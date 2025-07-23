@@ -4,7 +4,6 @@ import ConfettiCannon from 'react-confetti'
 
 const Confetti = () => {
   const { width, height } = useWindowSize();
-  console.log(width);
   return (
     <ConfettiCannon
       width={width - 15}

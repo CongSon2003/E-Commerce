@@ -6,7 +6,6 @@ import path from 'ultils/path'
 const Admin = () => {
   const navigate = useNavigate()
   const { pathname } = useLocation();
-  console.log(pathname);
   useEffect(() => {
     if (pathname === `/${path.ADMIN_URL}`) {
       navigate(`/admin/${path.DASHBOARD_URL}`)

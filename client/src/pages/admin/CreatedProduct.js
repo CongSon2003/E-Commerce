@@ -35,7 +35,6 @@ const CreatedProduct = () => {
       data.description = textDescription.description;
     }
     const finalData = {...data,...textDescription }
-    console.log("finalData", finalData);
     const formData = new FormData();
     for (const key of Object.entries(finalData)) {
       formData.append(key[0], key[1]); 
@@ -45,16 +44,13 @@ const CreatedProduct = () => {
       formData.append('thumb', finalData.thumb[0])
     }
     if (finalData.images && finalData.images.length > 0) {
-      console.log(finalData.images);
       for (let image of finalData.images) {
         formData.append('images', image);
       }
     }
-    console.log("formData", formData.getAll('thumb'));
-    console.log('finalData', finalData);
     const result = await apiCreateProduct(formData);
     setLoading(false);
-    console.log(result);
+
     if (result.success) {
       toast.success('Create product successfully');
       setPreviewImage({
@@ -72,7 +68,6 @@ const CreatedProduct = () => {
     setTextDescription(objectValue)
   }, [])
   useEffect(() => {
-    console.log('watch', watch);
     if (watch('thumb').length > 0) {
       handlePriviewThumb(watch('thumb')[0]);
     }
