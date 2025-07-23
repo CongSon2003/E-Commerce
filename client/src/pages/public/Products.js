@@ -25,11 +25,13 @@ const Products = () => {
     for (let i of searchParams.entries()) {
       queryArray.push(i);
     }
+    console.log(searchParams);
     const queries = {};
     for(let x of queryArray) {
       queries[x[0]] = x[1] 
     }
     if (queries.from && queries.to) {
+      console.log("OK");
       queryPrice =  { $and : [{price : {gte : queries.from}}, {price : {lte : queries.to}}]}
       delete queries.price
     } else {
@@ -46,6 +48,8 @@ const Products = () => {
     }
     const navigation_url = {...queries};
     delete navigation_url.price
+    console.log("OK");
+    console.log(navigation_url);
     if (Object.keys(navigation_url).length > 0) {
       navigation({
         pathname : `/products/${category}`,
@@ -79,6 +83,7 @@ const Products = () => {
   const currentItems = products?.slice(itemOffset, endOffset);
   const pageCount = Math.ceil(numberSearches / itemsPerPage);
   const handlePageClick = (event) => {
+    console.log(event);
     const page = event.selected + 1 || 1;
     const queryArray = [];
     for (let i of searchParams.entries()) {
@@ -88,12 +93,14 @@ const Products = () => {
     for(let x of queryArray) {
       queries[x[0]] = x[1] 
     }
+    console.log(queries);
     queries.page = page;
     setCurrentPage(+queries.page);
     navigation({
       pathname : `/products/${category}`,
       search : createSearchParams(queries).toString()
     })
+    console.log(products);
     const newOffset = products && (event.selected * itemsPerPage) % products.length;
     window.scrollTo(0,0)
     setItemOffset(newOffset);

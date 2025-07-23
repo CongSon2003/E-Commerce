@@ -11,17 +11,10 @@ const path = {
   OUR_SERVISES_URL : 'our-services',
   FAQ_URL : 'faq',
   DETAIL_PRODUCT__CATEGORY__PID__TITLE: 'products/:category/:productId/:title',
-  CATEGORY_BRAND_URL : 'products/:category/:brand',
   DETAIL_PRODUCT : 'products',
   PAGE_WISHLIST_URL : 'wish-list',
   PAGE_CART_URL : 'cart',
   PAGE_CONTATS_US_URL : 'pages/contact-us',
-  PAGE_ABOUT_US_URL : 'pages/about-us',
-  PAGE_SERVICES_URL : 'pages/services',
-  PAGE_FAQ_URL : 'pages/faq',
-  PAGE_TYPOGRAPHY_URL : 'pages/typography',
-  PAGE_HEADING_URL : 'pages/heading',
-  
   // ADMIN : 
   ADMIN_URL : 'admin',
   DASHBOARD_URL : 'dash-board',

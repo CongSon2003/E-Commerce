@@ -14,7 +14,7 @@ const Navigation = () => {
     }
   }
   return (
-    <div className="w-full flex justify-center font-[Poppins]">
+    <div className="w-full flex justify-center">
       <div className="flex items-center justify-between w-main py-2 border-y">
         <div className="flex items-center gap-4 w-[80%]">
           {navigation.map((item) => {
@@ -22,17 +22,17 @@ const Navigation = () => {
               <NavLink
                 key={item.id}
                 to={item.path}
-                className={"relative pr-[30px] flex items-center gap-1 hover:text-main text-[#1D1D1D] font-[Poppins] text-sm"}
+                className={"relative pr-[30px] flex items-center gap-1 hover:text-main"}
               >
                 <div onMouseMove={() => handleHover(item.id, 'Move')} onMouseLeave={() => handleHover(item.id, 'Leave')} className="flex items-center gap-1 py-1">
                   <span>{item.value}</span>
                   {item.id !== 1 && <FaCaretDown/>}
                 </div>
-                {(item.id === 3 && isHover) && <div onMouseMove={() => handleHover(item.id, 'Move')} onMouseLeave={() => handleHover(item.id, 'Leave')} className="absolute bg-white z-50 shadow-2xl border hover:text-black text-black left-0 right-0 top-[29px] min-w-[230px] py-[30px] px-[10px]">
-                  <ul className="flex flex-col gap-[10px] font-normal text-sm">
+                {(item.id === 3 && isHover) && <div onMouseMove={() => handleHover(item.id, 'Move')} onMouseLeave={() => handleHover(item.id, 'Leave')} className="absolute bg-white z-50 shadow-2xl border hover:text-black text-black left-0 right-0 top-[29px] min-w-[220px] py-[30px] px-[10px]">
+                  <ul className="flex flex-col gap-[10px] font-normal text-base">
                     {item.type === 'parent' && item.submenu.map(el => (
                       <li className="px-5">
-                        <Link to={el.path} onClick={() => setIsHover(false)} className="hover:text-main text-[#505050]">{el.text}</Link>
+                        <Link to={el.path} onClick={() => setIsHover(false)} className="hover:text-main">{el.text}</Link>
                       </li>
                     ))}
                   </ul>
@@ -40,9 +40,9 @@ const Navigation = () => {
               </NavLink>
             );
           })}
-          <NavLink className="hover:text-main text-[#1D1D1D] font-[Poppins] text-sm">CONTACT US</NavLink>
+          <NavLink className="hover:text-main">CONTACT US</NavLink>
         </div>
-        <div className="w-[20%] font-[Poppins] text-sm">Search something</div>
+        <div className="w-[20%]">Search something</div>
       </div>
     </div>
   );

@@ -32,6 +32,7 @@ const ItemProduct = ({ itemProductData, isNew, normal, type, navigate, dispatch 
     }
     if (!isCheckCart) {
       const result = await apiUpdateCartUser({ productId : itemProductData?._id, color : itemProductData?.color, quantity : 1, thumb : itemProductData?.thumb});
+      console.log(result);
       if (result.success) {
         dispatch(getCurrentUser())
       }
@@ -43,8 +44,15 @@ const ItemProduct = ({ itemProductData, isNew, normal, type, navigate, dispatch 
       setIsCheckCart(currentUser?.cart?.some(item => item.product._id === itemProductData._id))
     }
   },[currentUser, isLoggedIn, itemProductData])
+  /*
+  ${
+                hoverSelectOption
+                  ? "animate-slide-top"
+                  : "animate-slide-out-bottom"
+              }`*/
   return (
-    <div className="text-base w-full px-[10px] py-[10px] font-[Poppins]">
+    <div className="text-base w-full px-[10px] py-[10px]">
+    
       <div
         onMouseEnter={(e) => {
           e.stopPropagation();
@@ -65,7 +73,7 @@ const ItemProduct = ({ itemProductData, isNew, normal, type, navigate, dispatch 
             >
               <button onClick={() => dispatch(wishList({thumb : itemProductData.thumb, price : itemProductData.price, title : itemProductData.title, category: itemProductData.category, slug : itemProductData.slug, _id : itemProductData._id}))}><SelectOption icon={wishListLocal?.some(item => item._id === itemProductData._id) ? <FaCheck/> : <FaHeart/>}/></button>
               <button title="a" onClick={() => handleAddCart()} className="border-none outline-none"><SelectOption icon={isCheckCart ? <BsCartCheckFill/> : <BsFillCartPlusFill />} /></button>
-              <button onClick={() => dispatch(showModal({ isShowModel : 2, dataModel : <QuickProductDetails Product = {itemProductData}/>}))} className="border-none outline-none"><SelectOption icon={<FaEye/>}/></button>
+              <button onClick={() => dispatch(showModal({ isShowModel : true, dataModel : <QuickProductDetails Product = {itemProductData}/>}))} className="border-none outline-none"><SelectOption icon={<FaEye/>}/></button>
             </div>
           }
           <Link
