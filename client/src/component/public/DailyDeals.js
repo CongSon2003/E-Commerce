@@ -14,7 +14,7 @@ const DailyDeals = () => {
     const result = await apigetProducts({
       limit: 1,
       totalRatings: { gt: 4 },
-      // page: Math.round(Math.random() * 5),
+      page: Math.round(Math.random() * 5),
     });
     
     if (result?.success) {
@@ -22,9 +22,9 @@ const DailyDeals = () => {
       // setHours(24 - new Date().getHours());
       // setMinutes(60 - new Date().getMinutes());
       // setSeconds(60 - new Date().getSeconds());
-      setHours(23);
-      setMinutes(59);
-      setSeconds(59);
+      setHours(2);
+      setMinutes(2);
+      setSeconds(2);
     }
   };
   useEffect(() => {
@@ -37,12 +37,12 @@ const DailyDeals = () => {
       } else {
         if (minutes > 0) {
           setMinutes((prev) => prev - 1);
-          setSeconds(59);
+          setSeconds(2);
         } else {
           if (hours > 0) {
             setHours((prev) => prev - 1);
-            setMinutes(59);
-            setSeconds(59);
+            setMinutes(2);
+            setSeconds(2);
           } else {
             setRestoreTime((prev) => !prev);
           }
@@ -54,18 +54,16 @@ const DailyDeals = () => {
     };
   }, [seconds, minutes, hours, restoreTime]);
   return (
-    <div className="border w-full font-[Poppins]">
+    <div className="border w-full">
       <div className="p-5 content-center">
-        <div className="flex items-center justify-center mb-[40px]">
+        <div className="flex items-center justify-center mb-[50px]">
           <IoMdStar color="red" fontSize={25} />
           <span className="uppercase opacity-75 text-[20px] text-center font-semibold flex-auto">
             Daily Deals
           </span>
         </div>
         <div className="flex flex-col text-center gap-2">
-          <div className="mb-2">
-            <img src={dailyDealys?.thumb} className="object-contain cursor-pointer w-full h-[255px] border-none" alt="dailyDealys" />
-          </div>
+          <img src={dailyDealys?.thumb} className="object-cover cursor-pointer w-[255px] h-[255px]" alt="" />
           <div className="flex flex-col justify-center text-center gap-1">
             <div className="text-[#2b3743] flex justify-center line-clamp-1 mb-2">
               <a href="/products/example-book-3" className="line-clamp-1">
@@ -84,7 +82,7 @@ const DailyDeals = () => {
             </div>
           </div>
           <div>
-            <div className="flex justify-between items-start mb-[15px]">
+            <div className="flex justify-around items-start mb-[15px]">
               <CountDown time={hours} unit={"Hours"} />
               <CountDown time={minutes} unit={"Minutes"} />
               <CountDown time={seconds} unit={"Seconds"} />

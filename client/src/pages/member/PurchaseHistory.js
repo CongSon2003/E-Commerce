@@ -9,12 +9,14 @@ const PurchaseHistory = () => {
   useEffect(() => {
     const fetchApiGetOrdersUser = async () => {
       const result = await apiGetOrdersUser();
+      console.log(result);
       if (result.success || result.response) {
         setOrders(result.response);
       }
     }
     fetchApiGetOrdersUser()
   }, []);
+  console.log(orders);
   return (
     <div className='w-full p-5'>
       <header className="border-b border-black pb-4 mb-4 flex items-center gap-2">

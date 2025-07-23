@@ -60,7 +60,9 @@ const Header = () => {
   // const [textError, set]
   const handleLogin = async (data) => {
     setIsLoading(true);
+    console.log(data);
     const result_login = await apiLogin(data);
+    console.log(result_login);
     if (result_login?.success) {
       // Dispatch lưu vào localStorage:
       dispatch(
@@ -105,6 +107,7 @@ const Header = () => {
   const handleForgotPassword = async (data) => {
     setIsLoading(true);
     const result = await apiForgotPassword({ email: emailResetPassword });
+    console.log(result);
     if (result?.success) {
       setEmailResetPassword("");
       setIsLoading(false);
@@ -174,10 +177,10 @@ const Header = () => {
   return (
     <>
       <div className="homeHeader w-full flex flex-col">
-        <div className="topHeader bg-[#ee3231] text-white flex flex-col items-center py-[10px] text-xs font-[Poppins]">
+        <div className="topHeader bg-[#ee3231] text-white flex flex-col items-center py-[10px] text-[13px]">
           <div className="flex justify-between w-main">
-            <div className="left-area flex items-center font-[Poppins]">
-              <div className="pr-4">
+            <div className="left-area flex items-center">
+              <div className="pr-4 font-semibold">
                 ORDER ONLINE OR CALL US (+1800) 000 8808
               </div>
               <div className="flex gap-1 items-center px-2.5 p-0 border-l border-[#e5e7eb60]">
@@ -190,7 +193,7 @@ const Header = () => {
               <div className={`flex h-full items-center gap-4 relative`}>
                 <div
                   id="profile"
-                  className="flex items-center gap-4 cursor-pointer"
+                  className="flex items-center font-semibold gap-4 cursor-pointer"
                 >
                   <div
                     onClick={() => setIsShowOption((prev) => !prev)}
@@ -278,7 +281,7 @@ const Header = () => {
             )}
           </div>
         </div>
-        <div className="sectionHeader flex items-center justify-center pb-[30px] pt-[20px] text-sm font-[Poppins]">
+        <div className="sectionHeader flex items-center justify-center pb-[30px] pt-[20px] text-sm">
           <div className="w-main flex justify-between items-center h-[44px]">
             <div className="flex items-center w-[30%]">
               <Link to={`/${Path.HOME_URL}`}>
@@ -293,14 +296,14 @@ const Header = () => {
               <div className="flex flex-col gap-1 px-[20px] border-r">
                 <div className="flex items-center font-semibold gap-1">
                   <FaPhoneAlt className="text-main" />
-                  <span className="ml-2 text-[#505050]">(+1800) 000 8808</span>
+                  <span className="ml-2">(+1800) 000 8808</span>
                 </div>
                 <div className="text-xs">Mon-Sat 9:00AM - 8:00PM</div>
               </div>
               <div className="flex flex-col gap-1 text-center px-[20px] border-r">
                 <div className="flex items-center font-semibold gap-1">
                   <MdEmail className="text-main" />
-                  <span className="ml-2 uppercase text-[#505050]">
+                  <span className="ml-2 uppercase">
                     {" "}
                     support@tadathemes.com
                   </span>
@@ -327,9 +330,9 @@ const Header = () => {
                 <div>
                   <FaShoppingBag className="text-main text-xl" />
                 </div>
-                <div className="flex items-center gap-1 hover:text-main">
+                <div className="flex items-center gap-1 font-semibold hover:text-main">
                   <span>{currentUser?.cart.length || 0}</span>
-                  <span className="text-sm">items</span>
+                  <span>items</span>
                 </div>
               </div>
             </div>
