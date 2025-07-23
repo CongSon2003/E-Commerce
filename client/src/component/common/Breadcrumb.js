@@ -4,14 +4,18 @@ import useBreadcrumbs from "use-react-router-breadcrumbs";
 import { FaChevronRight } from "react-icons/fa6"
 // define custom breadcrumbs for certain routes.
 // breadcrumbs can be components or strings.
-const Breadcrumb = ({title, category}) => {
-  const routes = [
+
+const Breadcrumb = ({title, category, brand, pages}) => {
+  let routes = [];
+  if (brand) {
+    routes = [
     // { path : '/', breadcrumbs : "Home"},
-    { path : '/products', breadcrumbs: "products"},
-    { path : '/products/:category', breadcrumbs: category},
-    { path : ':category', breadcrumbs : category},
-    { path : '/products/:category/:productId/:title', breadcrumbs : title}
-  ];
+      { path : '/products', breadcrumbs: "products"},
+      { path : '/products/:category', breadcrumbs: category},
+      { path : ':category', breadcrumbs : category},
+      { path : '/products/:category/:productId/:title', breadcrumbs : title}
+    ];
+  }
   const breadcrumbs = useBreadcrumbs(routes);
   return (
     <div className='w-full bg-[#f7f7f7] flex flex-col justify-center items-center py-[15px] mt-[-20px]'>
